@@ -52,11 +52,11 @@ jobs:
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             npx netlify deploy --prod \
-              --dir=dist/m1p13mean-frontend/browser \
+              --dir=dist/angular-temp/browser \
               --site=${{ secrets.NETLIFY_SITE_ID_PROD }}
           else
             npx netlify deploy \
-              --dir=dist/m1p13mean-frontend/browser \
+              --dir=dist/angular-temp/browser \
               --site=${{ secrets.NETLIFY_SITE_ID_DEV }}
           fi
         env:
@@ -75,7 +75,7 @@ jobs:
               "fields": [
                 { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true },
                 { "name": "Auteur", "value": "${{ github.actor }}", "inline": true },
-                { "name": "Dossier source", "value": "dist/m1p13mean-frontend/browser" }
+                { "name": "Dossier source", "value": "dist/angular-temp/browser" }
               ]
             }]
           }' ${{ secrets.DISCORD_WEBHOOK_URL }}
