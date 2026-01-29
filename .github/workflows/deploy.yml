@@ -51,14 +51,16 @@ jobs:
       - name: Deploy to Netlify
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            npx netlify deploy --prod \
-              --dir=dist/m1p13mean-frontend/browser \
-              --site=${{ secrets.NETLIFY_SITE_ID_PROD }}
+            # Déploiement PROD (branche main)
+            JSON_RESPONSE=$(npx netlify deploy --prod --dir=dist/m1p13mean-frontend/browser --site=${{ secrets.NETLIFY_SITE_ID_PROD }} --json)
           else
-            npx netlify deploy --prod \
-              --dir=dist/m1p13mean-frontend/browser \
-              --site=${{ secrets.NETLIFY_SITE_ID_DEV }}
+            # Déploiement TEST (branche develop) - --prod utilisé pour mettre à jour l'URL principale du site dev
+            JSON_RESPONSE=$(npx netlify deploy --prod --dir=dist/m1p13mean-frontend/browser --site=${{ secrets.NETLIFY_SITE_ID_DEV }} --json)
           fi
+          
+          # Extraction de l'URL unique via jq
+          DEPLOY_URL=$(echo $JSON_RESPONSE | jq -r '.deploy_url')
+          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
@@ -75,7 +77,10 @@ jobs:
               "fields": [
                 { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true },
                 { "name": "Auteur", "value": "${{ github.actor }}", "inline": true },
-                { "name": "Dossier source", "value": "dist/m1p13mean-frontend/browser" }
+                { "name": "🔗 Lien de cette version", "value": "${{ steps.netlify_deploy.outputs.url }}" },
+                { "name": "🌍 Site Live", "value": "[Ouvrir le site](https://dev-m1p13mean-miangaly-tahina.netlify.app)" }
+              ],
+              "footer": { "text": "Build Angular complété avec succès" }
               ]
             }]
           }' ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -92,7 +97,8 @@ jobs:
               "color": 15548997,
               "description": "Le build ou le déploiement a échoué. Vérifie les logs sur GitHub Actions.",
               "fields": [
-                { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true }
+                { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true },
+                { "name": "Run ID", "value": "${{ github.run_id }}", "inline": true }
               ]
             }]
           }' ${{ secrets.DISCORD_WEBHOOK_URL }}
