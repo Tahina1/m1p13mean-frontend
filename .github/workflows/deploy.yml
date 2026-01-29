@@ -55,7 +55,7 @@ jobs:
               --dir=dist/m1p13mean-frontend/browser \
               --site=${{ secrets.NETLIFY_SITE_ID_PROD }}
           else
-            npx netlify deploy \
+            npx netlify deploy --prod \
               --dir=dist/m1p13mean-frontend/browser \
               --site=${{ secrets.NETLIFY_SITE_ID_DEV }}
           fi
