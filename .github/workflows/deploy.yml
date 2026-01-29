@@ -1,0 +1,98 @@
+# Ce workflow automatise le build et le déploiement de ton application Angular sur Netlify
+# Il envoie également une notification riche sur ton serveur Discord.
+
+name: Deploy Angular to Netlify
+
+# Contrôle quand le workflow va s'exécuter
+on:
+  # Déclenche le workflow lors d'un push sur les branches "develop" ou "main"
+  push:
+    branches: [ "develop", "main" ]
+  
+  # Permet de lancer ce workflow manuellement depuis l'onglet Actions de GitHub
+  workflow_dispatch:
+
+# Une exécution de workflow est composée d'un ou plusieurs jobs
+jobs:
+  # Ce workflow contient un seul job appelé "deploy"
+  deploy:
+    # Le type de serveur (runner) sur lequel le job va s'exécuter
+    runs-on: ubuntu-latest
+
+    # Les étapes représentent une séquence de tâches qui seront exécutées
+    steps:
+      # 1. Récupère ton code source depuis le dépôt GitHub pour que le job puisse y accéder
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Installe l'environnement Node.js (Version 24 pour correspondre au latest)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24  # Mis à jour ici
+          cache: 'npm'
+
+      # 3. Installe les dépendances du projet de manière propre (plus fiable que npm install)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Compile l'application Angular
+      # Si on est sur 'main', on utilise la configuration de production
+      - name: Build Angular
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            npm run build -- --configuration production
+          else
+            npm run build
+          fi
+
+      # 5. Déploie les fichiers compilés vers Netlify
+      # Utilise le dossier 'browser' spécifique aux versions récentes d'Angular
+      - name: Deploy to Netlify
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            npx netlify deploy --prod \
+              --dir=dist/m1p13mean-frontend/browser \
+              --site=${{ secrets.NETLIFY_SITE_ID_PROD }}
+          else
+            npx netlify deploy \
+              --dir=dist/m1p13mean-frontend/browser \
+              --site=${{ secrets.NETLIFY_SITE_ID_DEV }}
+          fi
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      # 6. Envoie une notification sur Discord en cas de SUCCÈS
+      - name: Notify Discord Success
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+            "embeds": [{
+              "title": "🚀 Déploiement Réussi !",
+              "color": 5763719,
+              "fields": [
+                { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true },
+                { "name": "Auteur", "value": "${{ github.actor }}", "inline": true },
+                { "name": "Dossier source", "value": "dist/m1p13mean-frontend/browser" }
+              ]
+            }]
+          }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      # 7. Envoie une notification sur Discord en cas d'ÉCHEC
+      - name: Notify Discord Failure
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+            "embeds": [{
+              "title": "❌ Échec du Déploiement",
+              "color": 15548997,
+              "description": "Le build ou le déploiement a échoué. Vérifie les logs sur GitHub Actions.",
+              "fields": [
+                { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true }
+              ]
+            }]
+          }' ${{ secrets.DISCORD_WEBHOOK_URL }}

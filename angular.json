@@ -2,12 +2,12 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "yarn",
+    "packageManager": "npm",
     "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
-    "angular-temp": {
+    "m1p13mean-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -62,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-temp:build:production"
+              "buildTarget": "m1p13mean-frontend:build:production"
             },
             "development": {
-              "buildTarget": "angular-temp:build:development"
+              "buildTarget": "m1p13mean-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
