@@ -29,7 +29,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24  # Mis à jour ici
+          node-version: 24
           cache: 'npm'
 
       # 3. Installe les dépendances du projet de manière propre (plus fiable que npm install)
@@ -47,38 +47,33 @@ jobs:
           fi
 
       # 5. Déploie les fichiers compilés vers Netlify
-      # Utilise le dossier 'browser' spécifique aux versions récentes d'Angular
+      # IMPORTANT : On ajoute l'id pour récupérer l'URL de sortie
       - name: Deploy to Netlify
+        id: netlify_deploy
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            npx netlify deploy --prod \
-              --dir=dist/angular-temp/browser \
-              --site=${{ secrets.NETLIFY_SITE_ID_PROD }}
+            # Déploiement PROD (branche main)
+            JSON_RESPONSE=$(npx netlify deploy --prod --dir=dist/m1p13mean-frontend/browser --site=${{ secrets.NETLIFY_SITE_ID_PROD }} --json)
           else
-            npx netlify deploy \
-              --dir=dist/angular-temp/browser \
-              --site=${{ secrets.NETLIFY_SITE_ID_DEV }}
+            # Déploiement TEST (branche develop) - --prod utilisé pour mettre à jour l'URL principale du site dev
+            JSON_RESPONSE=$(npx netlify deploy --prod --dir=dist/m1p13mean-frontend/browser --site=${{ secrets.NETLIFY_SITE_ID_DEV }} --json)
           fi
+          
+          # Extraction de l'URL unique via jq et sauvegarde en sortie de step
+          DEPLOY_URL=$(echo $JSON_RESPONSE | jq -r '.deploy_url')
+          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
       # 6. Envoie une notification sur Discord en cas de SUCCÈS
+      # Le JSON est mis sur une ligne pour éviter les erreurs d'interprétation Bash (Error 50109)
       - name: Notify Discord Success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{
-            "embeds": [{
-              "title": "🚀 Déploiement Réussi !",
-              "color": 5763719,
-              "fields": [
-                { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true },
-                { "name": "Auteur", "value": "${{ github.actor }}", "inline": true },
-                { "name": "Dossier source", "value": "dist/angular-temp/browser" }
-              ]
-            }]
-          }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+          -d '{"embeds": [{"title": "🚀 Déploiement Réussi !", "color": 5763719, "fields": [{"name": "Branche", "value": "${{ github.ref_name }}", "inline": true}, {"name": "Auteur", "value": "${{ github.actor }}", "inline": true}, {"name": "🔗 Lien de cette version", "value": "${{ steps.netlify_deploy.outputs.url }}"}, {"name": "🌍 Site Live", "value": "https://dev-m1p13mean-miangaly-tahina.netlify.app"}]}]}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       # 7. Envoie une notification sur Discord en cas d'ÉCHEC
       - name: Notify Discord Failure
@@ -86,13 +81,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{
-            "embeds": [{
-              "title": "❌ Échec du Déploiement",
-              "color": 15548997,
-              "description": "Le build ou le déploiement a échoué. Vérifie les logs sur GitHub Actions.",
-              "fields": [
-                { "name": "Branche", "value": "${{ github.ref_name }}", "inline": true }
-              ]
-            }]
-          }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+          -d '{"embeds": [{"title": "❌ Échec du Déploiement", "color": 15548997, "description": "Le build ou le déploiement a échoué. Vérifie les logs sur GitHub Actions.", "fields": [{"name": "Branche", "value": "${{ github.ref_name }}", "inline": true}]}]}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
