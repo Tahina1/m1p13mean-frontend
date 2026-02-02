@@ -1,0 +1,76 @@
+// PATH ----------------------------------------------------------------------
+$pathFont: '/assets/fonts/font-family'; // path font-family
+$pathFontIcon: '/assets/fonts/font-icon'; // path font-family
+$pathImg: '/assets/images'; // path image
+
+// COLOR --------------------------------------------------------------------
+// Primary color (CHART)
+$color-primary1: #cd1225;
+$color-primary2: #cd1225;
+$color-primary4: #f8f8f8;
+// Secondary light color
+// Others color
+// Neutrals 100% color
+$color-neutrals1: #ffffff;
+$color-neutrals2: #f8f8f8;
+$color-neutrals3: #e4e4e4;
+$color-neutrals4: #a1a1a1;
+$color-neutrals5: #616161;
+$color-neutrals6: #3e3e3e;
+// Neutrals 50% color
+$color-neutralsLight1: #f8f8f880;
+$color-neutralsLight2: #e4e4e480;
+$color-neutralsLight3: #a1a1a180;
+$color-neutralsLight4: #61616180;
+$color-neutralsLight5: #3e3e3e80;
+$color-neutralsLight6: #27272780;
+
+// DEFAULT -------------------------------------------------------------------
+$fontFamily-default: 'Inter', sans-serif; // font-family primary
+$fontFamily2: 'Inter', sans-serif;
+$fontIcon: 'mean';
+$main-bg: $color-neutrals2; // background global des pages
+
+$thin: 100; // Thin (Hairline)
+$extraLight: 200; // Extra Light (Ultra Light)
+$light: 300; // Light
+$normal: 400; // Normal
+$medium: 500; // Medium
+$semiBold: 600; // Semi Bold (Demi Bold)
+$bold: 700; // Bold
+$extraBold: 800; // Extra Bold (Ultra Bold)
+$heavy: 900; // Black (Heavy)
+
+// HEADING : Title tag ------------------------------------------------------
+// H1
+$fontSize-h1: 24px;
+$marginBottom-h1: 0;
+$textTransform-h1: uppercase;
+$fontWeight-h1: $semiBold;
+
+// H2
+$fontSize-h2: 18px;
+$marginBottom-h2: 0;
+$textTransform-h2: uppercase;
+$fontWeight-h2: $medium;
+
+// H3
+$fontSize-h3: 16px;
+$marginBottom-h3: 0;
+$textTransform-h3: uppercase;
+
+// H4
+$fontSize-h4: 1.4rem;
+$marginBottom-h4: 0;
+$textTransform-h4: none;
+
+// H5
+$fontSize-h5: 1.2rem;
+$marginBottom-h5: 9px;
+$textTransform-h5: none;
+$color-h5: $color-neutrals4;
+
+// H6
+$fontSize-h6: 1rem;
+$marginBottom-h6: 0;
+$textTransform-h6: uppercase;
