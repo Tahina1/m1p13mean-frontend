@@ -17,5 +17,21 @@
         <button class="shopBtn">Shop now <span class="arrow"></span></button>
       </div>
     </div>
+    <div class="home__shopCategories">
+      <div class="home__shopCategories__title">Shop by Category</div>
+      <div class="home__shopCategories__cards">
+        @for (card of cards; track $index) {
+          <div class="card">
+            <picture>
+              <img [src]="card.img" [alt]="card.alt" />
+            </picture>
+            <div class="card__caption">
+              <div class="card__caption__title">{{ card.title }}</div>
+              <div class="card__caption__desc">{{ card.caption }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
   </div>
 </main>

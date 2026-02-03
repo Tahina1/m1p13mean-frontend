@@ -35,7 +35,7 @@
     E
   </text>
 
-  <!-- Accent A -->
+  <!-- A (accent red) -->
   <text
     x="68"
     y="36"
@@ -43,7 +43,7 @@
     font-size="36"
     font-weight="800"
     letter-spacing="-2"
-    fill="#fe5c4a"
+    fill="#9d0010"
   >
     A
   </text>

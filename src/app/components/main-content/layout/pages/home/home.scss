@@ -10,11 +10,10 @@
   position: relative;
 
   img {
-    z-index: 10;
     position: absolute;
-    bottom: 0;
-    top: -145px;
-    left: -240px;
+    height: 1000px;
+    top: -100px;
+    left: -345px;
     transform: scale(0.8);
     transform-origin: top left;
   }
