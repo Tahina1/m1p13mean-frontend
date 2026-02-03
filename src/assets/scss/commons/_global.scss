@@ -1,0 +1,15 @@
+@use './' as *;
+
+body {
+  font-family: $fontFamily-default;
+  font-weight: $normal;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
