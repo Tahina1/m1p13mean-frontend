@@ -33,4 +33,37 @@ export class Home {
       alt: 'accessories',
     },
   ];
+
+  stores = [
+    {
+      name: 'zara',
+      logo: 'assets/images/zara.png',
+      sales: 30,
+    },
+    {
+      name: 'nike',
+      logo: 'assets/images/nike.png',
+      sales: 0,
+    },
+    {
+      name: 'h&m',
+      logo: 'assets/images/h&m.png',
+      sales: 50,
+    },
+    {
+      name: 'adidas',
+      logo: 'assets/images/adidas.png',
+      sales: 0,
+    },
+    {
+      name: 'pull&bear',
+      logo: 'assets/images/pull&bear.png',
+      sales: 0,
+    },
+    {
+      name: 'bershka',
+      logo: 'assets/images/bershka.png',
+      sales: 0,
+    },
+  ];
 }
