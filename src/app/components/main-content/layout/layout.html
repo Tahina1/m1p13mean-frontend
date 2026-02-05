@@ -11,3 +11,6 @@
     </div>
   </main>
 </div>
+@if (authService.loginPopup()) {
+  <app-auth></app-auth>
+}

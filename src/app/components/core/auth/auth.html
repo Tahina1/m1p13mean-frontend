@@ -1,1 +1,18 @@
-<p>auth works!</p>
+<div class="authOverlay" (click)="authService.setAuthPopup(false)">
+  <div class="authModal" (click)="$event.stopPropagation()">
+    <button class="closeBtn" (click)="authService.setAuthPopup(false)">✕</button>
+    <h2>Register</h2>
+    <form [formGroup]="form">
+      <input placeholder="First name" formControlName="firstName" />
+      <br />
+      <input placeholder="Last name" formControlName="lastName" />
+      <br />
+      <input placeholder="Email" formControlName="email" />
+      <br />
+      <input type="password" placeholder="Password" formControlName="password" />
+      <br />
+
+      <button type="button" (click)="register()">Register</button>
+    </form>
+  </div>
+</div>
