@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://m1p13mean-backend-dev.vercel.app',
   appName: 'M1P13 Mean Frontend',
 };
