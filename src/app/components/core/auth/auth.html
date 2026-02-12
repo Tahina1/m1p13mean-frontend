@@ -1,18 +1,18 @@
 <div class="authOverlay" (click)="authService.setAuthPopup(false)">
   <div class="authModal" (click)="$event.stopPropagation()">
-    <button class="closeBtn" (click)="authService.setAuthPopup(false)">✕</button>
-    <h2>Register</h2>
-    <form [formGroup]="form">
-      <input placeholder="First name" formControlName="firstName" />
-      <br />
-      <input placeholder="Last name" formControlName="lastName" />
-      <br />
-      <input placeholder="Email" formControlName="email" />
-      <br />
-      <input type="password" placeholder="Password" formControlName="password" />
-      <br />
-
-      <button type="button" (click)="register()">Register</button>
-    </form>
+    <button class="closeBtn" (click)="authService.setAuthPopup(false)">
+      <i class="icn-cross"></i>
+    </button>
+    <div class="authContent">
+      @if (isLogin) {
+        <h2>Log in</h2>
+        <app-login></app-login>
+        <p>Don't have an account? <span (click)="isLogin = false">Create account</span></p>
+      } @else {
+        <h2>Register</h2>
+        <app-register></app-register>
+        <p>Already have an account? <span (click)="isLogin = true">Log in</span></p>
+      }
+    </div>
   </div>
 </div>

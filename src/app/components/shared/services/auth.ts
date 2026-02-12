@@ -25,8 +25,9 @@ export class AuthService {
   setAuth(token: string) {
     localStorage.setItem('authorization', token);
   }
+
   login(data: { email: string; password: string }): Observable<DefaultData> {
-    return this.http.post(`/auth/login`, data);
+    return this.http.post(`api/auth/login`, data);
   }
 
   register(data: {

@@ -1,0 +1,33 @@
+@use '../../../../../assets/scss/commons/variable' as *;
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  input,
+  button {
+    width: 100%;
+    padding: 10px;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  button {
+    background-color: $color-primary1;
+    color: $color-neutrals2;
+    border: solid 1px transparent;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &:hover {
+      background-color: $color-neutrals2;
+      color: $color-primary1;
+      border: solid 1px $color-primary1;
+    }
+  }
+}
