@@ -1,1 +1,54 @@
-<p>home works!</p>
+<main>
+  <div class="home">
+    <div class="home__header">
+      <div class="title">
+        <picture>
+          <img src="assets/images/shopping_walking.png" alt="girl shopping walking" />
+        </picture>
+        <div class="promo">
+          <h1 class="black">Black</h1>
+          <span class="sale">Sales</span>
+          <h1 class="friday">Friday</h1>
+          <h2 class="caption">
+            Enjoy up to <span>50%</span> off your favorite items and discover exclusive Black Friday
+            deals across the mall
+          </h2>
+        </div>
+        <button class="shopBtn">Shop now <span class="arrow"></span></button>
+      </div>
+    </div>
+    <div class="home__shopCategories">
+      <div class="home__shopCategories__title"><h2>Shop by Category</h2></div>
+      <div class="home__shopCategories__cards homeContainer">
+        @for (card of cards; track $index) {
+          <a href="#" class="card">
+            <picture>
+              <img [src]="card.img" [alt]="card.alt" />
+            </picture>
+            <div class="card__caption">
+              <div class="card__caption__title">{{ card.title }}</div>
+              <div class="card__caption__desc">{{ card.caption }}</div>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+    <div class="home__stores">
+      <div class="home__stores__title"><h2>Popular Stores</h2></div>
+      <div class="home__stores__list homeContainer">
+        @for (store of stores; track $index) {
+          <div class="store">
+            @if (store.sales > 0) {
+              <div class="store__sale">
+                Up to <span>{{ store.sales }}%</span>
+              </div>
+            }
+            <div class="store__logo">
+              <picture><img [src]="store.logo" [alt]="store.name" [class]="store.name" /></picture>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</main>

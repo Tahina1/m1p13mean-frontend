@@ -1,0 +1,51 @@
+@use '../../../../../assets/scss/commons/variable' as *;
+
+footer {
+  background-color: $color-neutrals2;
+  color: $color-primary2;
+}
+
+.content {
+  padding: 50px 40px 15px 40px;
+
+  &__top {
+    padding-bottom: 50px;
+  }
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left {
+      a {
+        color: $color-primary1;
+      }
+    }
+
+    &__right {
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+
+  a {
+    padding: 10px;
+    width: fit-content;
+    border: 1px solid transparent;
+    border-radius: 100px;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
