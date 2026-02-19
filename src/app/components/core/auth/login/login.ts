@@ -1,6 +1,7 @@
 import { AuthService } from '@/components/shared/services/auth';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 })
 export class Login {
   private fb = inject(FormBuilder);
+  private router = inject(Router);
   form = this.fb.group({
     email: [''],
     password: [''],
@@ -18,13 +20,28 @@ export class Login {
   authService = inject(AuthService);
 
   login() {
-    const { email, password } = this.form.value;
+    const data = this.form.getRawValue();
 
-    if (!email || !password) return;
+    this.authService.login(data).subscribe((res: any) => {
+      console.log('LOGIN RESPONSE =', res);
 
-    this.authService.login({ email, password }).subscribe({
-      next: (res) => console.log('LOGIN:', res),
-      error: (err) => console.error('LOGIN ERROR:', err),
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      console.log('User name:', res.user.firstName);
+      console.log('Role:', res.user.roles);
+      this.authService.userSignal.set(res.user);
+
+      this.authService.setAuthPopup(false);
+
+      const role = res.user.roles?.[0];
+
+      if (role === 'ADMIN') {
+        this.router.navigate(['/admin']);
+      } else if (role === 'SHOP') {
+        this.router.navigate(['/shop-dashboard']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     });
   }
 }

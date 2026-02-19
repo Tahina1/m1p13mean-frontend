@@ -10,4 +10,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Header {
   authService = inject(AuthService);
+  user = this.authService.userSignal;
+
+  ngOnInit() {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      this.authService.userSignal.set(JSON.parse(stored));
+    }
+  }
 }
