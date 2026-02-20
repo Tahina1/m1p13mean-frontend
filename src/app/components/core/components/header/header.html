@@ -18,7 +18,19 @@
           <a href="#">Contact</a>
         </nav>
         <div class="login">
-          <button class="loginBtn" (click)="authService.setAuthPopup(true)">Login</button>
+          @if (!authService.isLoggedIn()) {
+            <button class="loginBtn" (click)="authService.setAuthPopup(true)">
+              <i class="icn-switch"></i>
+              Login
+            </button>
+          } @else {
+            <div class="welcome">
+              Welcome, <span>{{ user()?.firstName }}</span>
+              <button class="logoutBtn" (click)="authService.logout()" title="logout">
+                <i class="icn-switch"></i>
+              </button>
+            </div>
+          }
         </div>
       </div>
     </div>
