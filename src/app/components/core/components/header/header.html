@@ -19,11 +19,16 @@
         </nav>
         <div class="login">
           @if (!authService.isLoggedIn()) {
-            <button class="loginBtn" (click)="authService.setAuthPopup(true)">Login</button>
+            <button class="loginBtn" (click)="authService.setAuthPopup(true)">
+              <i class="icn-switch"></i>
+              Login
+            </button>
           } @else {
             <div class="welcome">
-              Welcome, {{ user()?.firstName }}
-              <button (click)="authService.logout()">Logout</button>
+              Welcome, <span>{{ user()?.firstName }}</span>
+              <button class="logoutBtn" (click)="authService.logout()" title="logout">
+                <i class="icn-switch"></i>
+              </button>
             </div>
           }
         </div>

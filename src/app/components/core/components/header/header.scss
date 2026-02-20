@@ -61,6 +61,10 @@ header {
 }
 
 .loginBtn {
+  display: flex;
+  align-items: normal;
+  justify-content: center;
+  gap: 5px;
   background-color: $color-neutrals1;
   border: none;
   padding: 5px 30px;
@@ -72,5 +76,26 @@ header {
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 1px 20px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.welcome {
+  span {
+    font-weight: 600;
+  }
+  .logoutBtn {
+    margin-left: 10px;
+    background-color: $color-neutrals1;
+    border: none;
+    padding: 5px 10px;
+    color: $color-primary1;
+    border-radius: 100px;
+    box-shadow: 0 1px 13px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 1px 20px rgba(0, 0, 0, 0.35);
+    }
   }
 }
