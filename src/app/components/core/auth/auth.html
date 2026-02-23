@@ -16,3 +16,8 @@
     </div>
   </div>
 </div>
+@if (authService.loading()) {
+  <div class="global-spinner">
+    <i class="icn-spinner2 spinner"></i>
+  </div>
+}

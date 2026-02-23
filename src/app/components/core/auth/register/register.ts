@@ -21,20 +21,50 @@ export class Register {
     roles: this.fb.control<Role[]>(['CLIENT']),
   });
 
-  register() {
-    const { firstName, lastName, email, password, roles } = this.form.value;
+  // register() {
+  //   const { firstName, lastName, email, password, roles } = this.form.value;
 
-    this.authService
-      .register({
-        firstName: firstName ?? '',
-        lastName: lastName ?? '',
-        email: email ?? '',
-        password: password ?? '',
-        roles: roles ?? ['CLIENT'],
-      })
-      .subscribe({
-        next: (res) => console.log('REGISTER:', res),
-        error: (err) => console.error('REGISTER ERROR:', err),
-      });
+  //   this.authService
+  //     .register({
+  //       firstName: firstName ?? '',
+  //       lastName: lastName ?? '',
+  //       email: email ?? '',
+  //       password: password ?? '',
+  //       roles: ['CLIENT'],
+  //     })
+  //     .subscribe({
+  //       next: (res) => console.log('REGISTER:', res),
+  //       error: (err) => console.error('REGISTER ERROR:', err),
+  //     });
+  // }
+
+  register() {
+    const f = this.form.getRawValue();
+
+    const body = {
+      firstName: f.firstName ?? '',
+      lastName: f.lastName ?? '',
+      email: f.email ?? '',
+      password: f.password ?? '',
+      roles: ['CLIENT'],
+    };
+
+    this.authService.register(body).subscribe({
+      next: () => {
+        this.authService
+          .login({
+            email: body.email,
+            password: body.password,
+          })
+          .subscribe((loginRes: any) => {
+            console.log('AUTO LOGIN =', loginRes);
+            localStorage.setItem('token', loginRes.accessToken);
+            localStorage.setItem('user', JSON.stringify(loginRes.user));
+            this.authService.userSignal.set(loginRes.user);
+
+            this.authService.setAuthPopup(false);
+          });
+      },
+    });
   }
 }
