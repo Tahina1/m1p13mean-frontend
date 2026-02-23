@@ -15,6 +15,7 @@ export class AuthService {
   isLogged = signal(false);
   currentUser: any = signal({});
   userSignal = signal<any>(null);
+  loading = signal(false);
 
   getAuth(): string {
     if (isPlatformBrowser(this.platformId)) {

@@ -18,30 +18,34 @@ export class Login {
   });
 
   authService = inject(AuthService);
+  loading = false;
 
   login() {
     const data = this.form.getRawValue();
+    this.authService.loading.set(true);
 
-    this.authService.login(data).subscribe((res: any) => {
-      console.log('LOGIN RESPONSE =', res);
+    this.authService.login(data).subscribe({
+      next: (res: any) => {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        this.authService.userSignal.set(res.user);
+        this.authService.setAuthPopup(false);
 
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('user', JSON.stringify(res.user));
-      console.log('User name:', res.user.firstName);
-      console.log('Role:', res.user.roles);
-      this.authService.userSignal.set(res.user);
+        const role = res.user.roles?.[0];
 
-      this.authService.setAuthPopup(false);
+        if (role === 'ADMIN') {
+          this.router.navigate(['/admin']);
+        } else if (role === 'SHOP') {
+          this.router.navigate(['/shop-dashboard']);
+        } else {
+          this.router.navigate(['/home']);
+        }
 
-      const role = res.user.roles?.[0];
-
-      if (role === 'ADMIN') {
-        this.router.navigate(['/admin']);
-      } else if (role === 'SHOP') {
-        this.router.navigate(['/shop-dashboard']);
-      } else {
-        this.router.navigate(['/home']);
-      }
+        this.authService.loading.set(false);
+      },
+      error: () => {
+        this.authService.loading.set(false);
+      },
     });
   }
 }
