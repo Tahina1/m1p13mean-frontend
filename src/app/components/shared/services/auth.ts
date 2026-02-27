@@ -14,6 +14,8 @@ export class AuthService {
   unauthorizedToken = signal(false);
   isLogged = signal(false);
   currentUser: any = signal({});
+  userSignal = signal<any>(null);
+  loading = signal(false);
 
   getAuth(): string {
     if (isPlatformBrowser(this.platformId)) {
@@ -26,7 +28,7 @@ export class AuthService {
     localStorage.setItem('authorization', token);
   }
 
-  login(data: { email: string; password: string }): Observable<DefaultData> {
+  login(data: { email: string | null; password: string | null }): Observable<DefaultData> {
     return this.http.post(`api/auth/login`, data);
   }
 
@@ -40,11 +42,24 @@ export class AuthService {
     return this.http.post('api/auth/register', data);
   }
 
-  // logout(): Observable<DefaultData> {
-  //   return this.http.post(`user/logout`, {});
-  // }
-
   setAuthPopup(value: boolean) {
     this.loginPopup.set(value);
+  }
+
+  getUser() {
+    const user = localStorage.getItem('user');
+    const parsed = user ? JSON.parse(user) : null;
+    this.userSignal.set(parsed);
+    return parsed;
+  }
+
+  isLoggedIn() {
+    return !!localStorage.getItem('token');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.userSignal.set(null);
   }
 }
