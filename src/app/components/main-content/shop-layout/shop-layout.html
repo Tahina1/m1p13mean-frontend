@@ -1,1 +1,65 @@
-<p>shop-layout works!</p>
+<div class="dashboard">
+  <div class="dashboard__header">
+    <div class="dashboard__welcome">
+      <h2 class="dashboard__title">Bienvenue, Sarah 👋</h2>
+      <p class="dashboard__subtitle">Voici votre boutique aujourd'hui</p>
+    </div>
+
+    <button class="dashboard__add-btn" (click)="openModal()">+ Ajouter un produit</button>
+  </div>
+  <div class="dashboard__stats">
+    <div class="dashboard__card dashboard__card--products">
+      <div class="dashboard__card-icon">👜</div>
+      <div>
+        <p class="dashboard__card-number">24</p>
+        <p class="dashboard__card-label">Produits</p>
+      </div>
+    </div>
+
+    <div class="dashboard__card">
+      <div class="dashboard__card-icon">👁</div>
+      <div>
+        <p class="dashboard__card-number">548</p>
+        <p class="dashboard__card-label">Visites</p>
+      </div>
+    </div>
+
+    <div class="dashboard__card">
+      <div class="dashboard__card-icon">⭐</div>
+      <div>
+        <p class="dashboard__card-number">4.8</p>
+        <p class="dashboard__card-label">Note moyenne</p>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard__content">
+    <div class="dashboard__feedback">
+      <h3 class="dashboard__section-title">Avis des clients</h3>
+
+      <div class="dashboard__review">
+        <div class="dashboard__review-avatar">YL</div>
+        <div class="dashboard__review-content">
+          <p class="dashboard__review-name">Yasmine L.</p>
+          <p class="dashboard__review-text">Super boutique ! Personnel très accueillant.</p>
+        </div>
+      </div>
+
+      <div class="dashboard__review">
+        <div class="dashboard__review-avatar">AB</div>
+        <div class="dashboard__review-content">
+          <p class="dashboard__review-name">Amine B.</p>
+          <p class="dashboard__review-text">Produits de très bonne qualité 🔥</p>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard__actions">
+      <h3 class="dashboard__section-title">Gestion rapide</h3>
+
+      <button class="dashboard__action-btn">Gérer les produits</button>
+      <button class="dashboard__action-btn">Modifier boutique</button>
+      <button class="dashboard__action-btn">Voir les avis</button>
+    </div>
+  </div>
+</div>
+
+<app-product-modal [isOpen]="isModalOpen" (closeModal)="isModalOpen = false"></app-product-modal>
