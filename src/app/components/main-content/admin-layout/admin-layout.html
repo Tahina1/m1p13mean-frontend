@@ -1,1 +1,15 @@
-<p>admin-layout works!</p>
+<div class="admin">
+  <app-aside></app-aside>
+  <div class="admin__main">
+    <div class="admin__topbar">
+      <h1 class="admin__page-title">Admin Dashboard</h1>
+
+      <div class="admin__profile">
+        <div class="admin__avatar">A</div>
+      </div>
+    </div>
+    <div class="admin__content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

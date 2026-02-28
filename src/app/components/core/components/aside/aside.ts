@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AuthService } from '@/components/shared/services/auth';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-aside',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './aside.scss',
 })
 export class Aside {
-
+  authService = inject(AuthService);
 }
