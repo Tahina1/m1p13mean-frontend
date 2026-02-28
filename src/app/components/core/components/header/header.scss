@@ -1,0 +1,101 @@
+@use '../../../../../assets/scss/commons/variable' as *;
+
+header {
+  background-color: $color-primary1;
+  color: $color-neutrals2;
+}
+
+.headerContainer {
+  padding: 20px 50px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__right {
+    gap: 40px;
+  }
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  a {
+    padding: 5px 0;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: $color-neutrals2;
+      transform: translateX(-50%);
+      transition: width 0.25s ease;
+    }
+
+    &:hover,
+    &.active {
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &.active {
+      font-weight: 600;
+    }
+  }
+}
+
+.loginBtn {
+  display: flex;
+  align-items: normal;
+  justify-content: center;
+  gap: 5px;
+  background-color: $color-neutrals1;
+  border: none;
+  padding: 5px 30px;
+  color: $color-primary1;
+  border-radius: 100px;
+  box-shadow: 0 1px 13px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.welcome {
+  span {
+    font-weight: 600;
+  }
+  .logoutBtn {
+    margin-left: 10px;
+    background-color: $color-neutrals1;
+    border: none;
+    padding: 5px 10px;
+    color: $color-primary1;
+    border-radius: 100px;
+    box-shadow: 0 1px 13px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 1px 20px rgba(0, 0, 0, 0.35);
+    }
+  }
+}

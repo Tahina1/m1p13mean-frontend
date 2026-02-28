@@ -1,1 +1,38 @@
-<p>header works!</p>
+<header>
+  <div class="headerContainer">
+    <div class="content">
+      <div class="content__left">
+        <div class="logo">
+          <a routerLink="/home">
+            <div class="picture">
+              <img src="assets/images/mean-logo.svg" alt="MEAN Mall" />
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="content__right">
+        <nav class="navbar">
+          <a routerLink="/home" routerLinkActive="active">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Contact</a>
+        </nav>
+        <div class="login">
+          @if (!authService.isLoggedIn()) {
+            <button class="loginBtn" (click)="authService.setAuthPopup(true)">
+              <i class="icn-switch"></i>
+              Login
+            </button>
+          } @else {
+            <div class="welcome">
+              Welcome, <span>{{ user()?.firstName }}</span>
+              <button class="logoutBtn" (click)="authService.logout()" title="logout">
+                <i class="icn-switch"></i>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

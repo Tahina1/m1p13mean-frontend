@@ -1,1 +1,23 @@
-<p>auth works!</p>
+<div class="authOverlay" (click)="authService.setAuthPopup(false)">
+  <div class="authModal" (click)="$event.stopPropagation()">
+    <button class="closeBtn" (click)="authService.setAuthPopup(false)">
+      <i class="icn-cross"></i>
+    </button>
+    <div class="authContent">
+      @if (isLogin) {
+        <h2>Log in</h2>
+        <app-login></app-login>
+        <p>Don't have an account? <span (click)="isLogin = false">Create account</span></p>
+      } @else {
+        <h2>Register</h2>
+        <app-register></app-register>
+        <p>Already have an account? <span (click)="isLogin = true">Log in</span></p>
+      }
+    </div>
+  </div>
+</div>
+@if (authService.loading()) {
+  <div class="global-spinner">
+    <i class="icn-spinner2 spinner"></i>
+  </div>
+}

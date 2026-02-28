@@ -1,18 +1,23 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './components/core/guards/auth-guard';
-import { notAuthGuard } from './components/core/guards/not-auth-guard';
+import { adminGuard } from './components/core/guards/admin-guard';
+import { shopGuard } from './components/core/guards/shop-guard';
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   canActivate: [authGuard],
-  //   loadChildren: () =>
-  //     import('./components/main-content/layout/layout.routes').then((r) => r.routes),
-  // },
   {
     path: '',
-    // canActivate: [notAuthGuard],
     loadChildren: () =>
-      import('./components/main-content/layout-auth/layout-auth.routes').then((r) => r.routes),
+      import('./components/main-content/layout/layout.routes').then((r) => r.routes),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadChildren: () =>
+      import('./components/main-content/admin-layout/admin-layout.routes').then((r) => r.routes),
+  },
+  {
+    path: 'shop-dashboard',
+    canActivate: [shopGuard],
+    loadChildren: () =>
+      import('./components/main-content/shop-layout/shop-layout.routes').then((r) => r.routes),
   },
 ];
