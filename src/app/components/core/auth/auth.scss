@@ -1,0 +1,61 @@
+@use '../../../../assets/scss/commons/variable' as *;
+
+.authOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authModal {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+  border-radius: 12px;
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.authContent {
+  text-align: center;
+  padding: 20px;
+
+  h2 {
+    color: $color-primary1;
+    text-transform: uppercase;
+    font-size: 20px;
+    padding-bottom: 25px;
+  }
+
+  p {
+    padding-top: 25px;
+    span {
+      cursor: pointer;
+      color: $color-primary1;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.closeBtn {
+  i {
+    font-size: 15px;
+    color: $color-neutrals6;
+  }
+}
