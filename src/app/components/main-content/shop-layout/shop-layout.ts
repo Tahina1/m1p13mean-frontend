@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProductModal } from './product-modal/product-modal';
+import { AuthService } from '@/components/shared/services/auth';
 
 @Component({
   selector: 'app-shop-layout',
@@ -17,4 +18,5 @@ export class ShopLayout {
   closeModal() {
     this.isModalOpen = false;
   }
+  authService = inject(AuthService);
 }
