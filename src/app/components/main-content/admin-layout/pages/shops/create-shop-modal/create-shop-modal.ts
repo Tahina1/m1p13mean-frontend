@@ -13,6 +13,8 @@ import { AuthService } from '@/components/shared/services/auth';
 export class CreateShopModal {
   private shopService = inject(ShopService);
   private authService = inject(AuthService);
+  mode = signal<'create' | 'edit'>('create');
+  editingShopId = '';
 
   isOpen = signal(false);
 
@@ -24,8 +26,32 @@ export class CreateShopModal {
 
   @Output() created = new EventEmitter<void>();
 
-  open() {
+  open(shop?: any) {
     this.isOpen.set(true);
+
+    if (shop) {
+      // EDIT MODE
+      this.mode.set('edit');
+      this.editingShopId = shop._id;
+
+      this.name = shop.name;
+      this.category = shop.category;
+      this.floor = shop.location?.floor || '';
+      this.shopNumber = shop.location?.shopNumber || '';
+    } else {
+      // CREATE MODE
+      this.mode.set('create');
+      this.resetForm();
+    }
+  }
+
+  resetForm() {
+    this.name = '';
+    this.category = '';
+    this.floor = '';
+    this.shopNumber = '';
+    this.files = [];
+    this.editingShopId = '';
   }
 
   close() {
@@ -37,7 +63,7 @@ export class CreateShopModal {
   }
 
   submit() {
-    const user = this.authService.currentUser(); // signal user
+    const user = this.authService.currentUser();
     if (!user) return;
 
     const formData = new FormData();
@@ -45,18 +71,32 @@ export class CreateShopModal {
     formData.append('category', this.category);
     formData.append('location[floor]', this.floor);
     formData.append('location[shopNumber]', this.shopNumber);
-    formData.append('ownerId', user._id);
 
     this.files.forEach((file) => {
       formData.append('gallery', file);
     });
 
-    this.shopService.createShop(formData).subscribe({
-      next: () => {
-        this.created.emit(); // reload table
-        this.close();
-      },
-      error: (err) => console.error(err),
-    });
+    // CREATE
+    if (this.mode() === 'create') {
+      formData.append('ownerId', user._id);
+
+      this.shopService.createShop(formData).subscribe({
+        next: () => {
+          this.created.emit();
+          this.close();
+        },
+        error: (err) => console.error(err),
+      });
+    }
+    // EDIT
+    else {
+      this.shopService.updateShop(this.editingShopId, formData).subscribe({
+        next: () => {
+          this.created.emit();
+          this.close();
+        },
+        error: (err) => console.error(err),
+      });
+    }
   }
 }

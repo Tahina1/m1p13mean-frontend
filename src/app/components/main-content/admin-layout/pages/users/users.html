@@ -1,1 +1,62 @@
-<p>users works!</p>
+<div class="users">
+  <div class="users__header">
+    <div>
+      <h2 class="users__title">Utilisateurs</h2>
+      <p class="users__subtitle">Gérer tous les utilisateurs</p>
+    </div>
+  </div>
+
+  <div class="users__card">
+    <table class="users__table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (user of users(); track user._id) {
+          <tr>
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+
+            <td>
+              <span
+                class="role"
+                [class.role--admin]="user?.roles?.[0] === 'ADMIN'"
+                [class.role--shop]="user?.roles?.[0] === 'SHOP'"
+                [class.role--client]="user?.roles?.[0] === 'CLIENT'"
+              >
+                {{ user?.roles?.[0] }}
+              </span>
+            </td>
+
+            <td class="users__actions">
+              <button class="icon-btn view">
+                <i class="icn-eye"></i>
+              </button>
+
+              <button class="icon-btn edit">
+                <i class="icn-pencil"></i>
+              </button>
+
+              <button class="icon-btn delete">
+                <i class="icn-bin"></i>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- pagination -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page() === 1">←</button>
+    <span>Page {{ page() }} / {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="page() === totalPages()">→</button>
+  </div>
+</div>

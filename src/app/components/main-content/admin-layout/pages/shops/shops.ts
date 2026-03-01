@@ -23,6 +23,10 @@ export class Shops {
     this.modal.open();
   }
 
+  editShop(shop: Shop) {
+    this.modal.open(shop);
+  }
+
   shops = signal<Shop[]>([]);
   page = signal(1);
   totalPages = signal(1);
