@@ -1,4 +1,5 @@
 import { AuthService } from '@/components/shared/services/auth';
+import { CartService } from '@/components/shared/services/cart-service';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +20,7 @@ export class Login {
 
   authService = inject(AuthService);
   loading = false;
+  private readonly cartService = inject(CartService);
 
   login() {
     const data = this.form.getRawValue();
@@ -47,6 +49,15 @@ export class Login {
         }
 
         this.authService.loading.set(false);
+
+        const pendingProduct = sessionStorage.getItem('pendingCartProduct');
+
+        if (pendingProduct) {
+          this.cartService.addToCart(pendingProduct).subscribe(() => {
+            this.cartService.refreshCartCount();
+            sessionStorage.removeItem('pendingCartProduct');
+          });
+        }
       },
       error: () => {
         this.authService.loading.set(false);
