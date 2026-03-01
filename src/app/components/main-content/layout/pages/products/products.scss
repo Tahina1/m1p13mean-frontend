@@ -117,3 +117,28 @@
     color: #c0392b;
   }
 }
+
+.add-cart-btn {
+  margin: 10px 0;
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: 0.2s;
+
+  i {
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: #b30000;
+  }
+}
