@@ -1,0 +1,47 @@
+<div class="cart-page">
+  <h1 class="cart-page__title">Votre panier</h1>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (!loading() && cart()?.items?.length === 0) {
+    <div class="empty">
+      <i class="icn-cart"></i>
+      <p>Votre panier est vide</p>
+    </div>
+  }
+
+  @if (cart()?.items?.length > 0) {
+    <div class="cart-list">
+      @for (item of cart()?.items; track item._id) {
+        <div class="cart-item">
+          <img [src]="item.productId.images?.[0]" />
+
+          <div class="cart-item__info">
+            <h3>{{ item.productId.name }}</h3>
+            <p class="shop">{{ item.shopId.name }}</p>
+            <p class="price">{{ item.priceAtAdd }} Ar</p>
+          </div>
+
+          <div class="cart-item__qty">
+            <button (click)="decrease(item)">-</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increase(item)">+</button>
+          </div>
+
+          <div class="cart-item__total">{{ item.priceAtAdd * item.quantity }} Ar</div>
+
+          <button class="remove" (click)="remove(item.productId._id)">✕</button>
+        </div>
+      }
+    </div>
+
+    <!-- TOTAL -->
+    <div class="cart-summary">
+      <h2>Total: {{ totalAmount }} Ar</h2>
+
+      <button class="checkout" (click)="checkout()">Valider la commande</button>
+    </div>
+  }
+</div>

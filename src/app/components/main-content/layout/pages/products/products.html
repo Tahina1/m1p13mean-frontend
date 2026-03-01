@@ -31,6 +31,10 @@
           <div class="product-card__content">
             <h3>{{ p.name }}</h3>
             <p class="price">{{ p.price }} Ar</p>
+            <button class="add-cart-btn" (click)="addToCart(p._id)">
+              <i class="icn-cart"></i>
+              Ajouter au panier
+            </button>
 
             <div class="product-card__bottom">
               <span class="status" [class.active]="p.isActive" [class.inactive]="!p.isActive">
