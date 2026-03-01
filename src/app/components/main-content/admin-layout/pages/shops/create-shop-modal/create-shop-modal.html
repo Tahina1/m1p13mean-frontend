@@ -3,7 +3,9 @@
 
   <div class="product-modal__panel">
     <div class="product-modal__header">
-      <h2 class="product-modal__title">Ajouter une boutique</h2>
+      <h2 class="product-modal__title">
+        {{ mode() === 'create' ? 'Ajouter une boutique' : 'Modifier boutique' }}
+      </h2>
       <button class="product-modal__close" (click)="close()">✕</button>
     </div>
 
@@ -38,7 +40,9 @@
         <input type="file" multiple (change)="onFiles($event)" />
       </div>
 
-      <button class="product-modal__submit">Créer boutique</button>
+      <button class="product-modal__submit">
+        {{ mode() === 'create' ? 'Créer boutique' : 'Mettre à jour' }}
+      </button>
     </form>
   </div>
 </div>

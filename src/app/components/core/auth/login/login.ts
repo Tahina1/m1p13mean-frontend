@@ -26,12 +26,17 @@ export class Login {
 
     this.authService.login(data).subscribe({
       next: (res: any) => {
-        sessionStorage.setItem('token', res.token);
-        sessionStorage.setItem('user', JSON.stringify(res.user));
+        if (res.accessToken) {
+          localStorage.setItem('token', res.accessToken);
+        } else {
+          console.error('NO TOKEN RECEIVED FROM BACKEND', res);
+        }
+        localStorage.setItem('user', JSON.stringify(res.user));
         this.authService.userSignal.set(res.user);
         this.authService.setAuthPopup(false);
 
         const role = res.user.roles?.[0];
+        this.authService.shopId.set(res.user.shopId || null);
 
         if (role === 'ADMIN') {
           this.router.navigate(['/admin'], { replaceUrl: true });

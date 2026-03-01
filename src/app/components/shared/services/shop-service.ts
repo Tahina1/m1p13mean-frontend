@@ -24,7 +24,7 @@ export class ShopService {
     return this.http.get(`api/shops/${id}`);
   }
 
-  updateShop(id: string, data: any): Observable<any> {
+  updateShop(id: string, data: FormData) {
     return this.http.patch(`api/shops/${id}`, data);
   }
 }
