@@ -1,0 +1,44 @@
+<div class="product-modal" [class.product-modal--open]="isOpen()">
+  <div class="product-modal__overlay" (click)="close()"></div>
+
+  <div class="product-modal__panel">
+    <div class="product-modal__header">
+      <h2 class="product-modal__title">Ajouter une boutique</h2>
+      <button class="product-modal__close" (click)="close()">✕</button>
+    </div>
+
+    <form class="product-modal__form" (ngSubmit)="submit()" #form="ngForm">
+      <!-- NAME -->
+      <div class="product-modal__group">
+        <label>Nom boutique</label>
+        <input type="text" [(ngModel)]="name" name="name" required />
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="product-modal__group">
+        <label>Catégorie</label>
+        <input type="text" [(ngModel)]="category" name="category" required />
+      </div>
+
+      <!-- FLOOR -->
+      <div class="product-modal__group">
+        <label>Étage</label>
+        <input type="text" [(ngModel)]="floor" name="floor" required />
+      </div>
+
+      <!-- SHOP NUMBER -->
+      <div class="product-modal__group">
+        <label>Numéro boutique</label>
+        <input type="text" [(ngModel)]="shopNumber" name="shopNumber" required />
+      </div>
+
+      <!-- IMAGES -->
+      <div class="product-modal__group">
+        <label>Galerie</label>
+        <input type="file" multiple (change)="onFiles($event)" />
+      </div>
+
+      <button class="product-modal__submit">Créer boutique</button>
+    </form>
+  </div>
+</div>

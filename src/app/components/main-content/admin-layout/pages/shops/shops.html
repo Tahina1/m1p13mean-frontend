@@ -1,0 +1,70 @@
+<div class="shops">
+  <div class="shops__header">
+    <div>
+      <h2 class="shops__title">Boutiques</h2>
+      <p class="shops__subtitle">Gérer toutes les boutiques</p>
+    </div>
+    <button class="shops__add-btn" (click)="openCreateShop()">
+      <i class="icn-plus"></i>
+      Ajouter boutique
+    </button>
+  </div>
+
+  <div class="shops__card">
+    <table class="shops__table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Catégorie</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (shop of shops(); track shop._id) {
+          <tr>
+            <td>{{ shop.name }}</td>
+            <td>{{ shop.category }}</td>
+
+            <td>
+              <span
+                class="status"
+                [class]="{
+                  'status--active': shop.status === 'ACTIVE',
+                  'status--inactive': shop.status !== 'ACTIVE',
+                }"
+              >
+                {{ shop.status }}
+              </span>
+            </td>
+
+            <td class="shops__actions">
+              <button class="icon-btn view">
+                <i class="icn-eye"></i>
+              </button>
+
+              <button class="icon-btn edit">
+                <i class="icn-pencil"></i>
+              </button>
+
+              <button class="icon-btn delete">
+                <i class="icn-bin"></i>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page() === 1">←</button>
+
+    <span>Page {{ page() }} / {{ totalPages() }}</span>
+
+    <button (click)="nextPage()" [disabled]="page() === totalPages()">→</button>
+  </div>
+</div>
+
+<app-create-shop-modal #shopModal (created)="loadShops()"></app-create-shop-modal>

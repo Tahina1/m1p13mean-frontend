@@ -17,15 +17,27 @@ export class AuthService {
   userSignal = signal<any>(null);
   loading = signal(false);
 
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      const user = sessionStorage.getItem('user');
+      const token = sessionStorage.getItem('token');
+
+      if (user && token) {
+        this.userSignal.set(JSON.parse(user));
+        this.isLogged.set(true);
+      }
+    }
+  }
+
   getAuth(): string {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('authorization') ?? '';
+      return sessionStorage.getItem('token') ?? '';
     }
     return '';
   }
 
   setAuth(token: string) {
-    localStorage.setItem('authorization', token);
+    localStorage.setItem('token', token);
   }
 
   login(data: { email: string | null; password: string | null }): Observable<DefaultData> {
@@ -54,12 +66,12 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('token');
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     this.userSignal.set(null);
   }
 }

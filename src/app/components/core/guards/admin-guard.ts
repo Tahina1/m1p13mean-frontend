@@ -1,20 +1,22 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
 
-  const user = localStorage.getItem('user');
+  const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+
   if (!user) {
-    router.navigate(['/home']);
+    router.navigate(['/']);
     return false;
   }
 
-  const parsed = JSON.parse(user);
-  const role = parsed.roles?.[0];
+  const role = user.roles?.[0];
 
-  if (role === 'ADMIN') return true;
+  if (role !== 'ADMIN') {
+    router.navigate(['/']);
+    return false;
+  }
 
-  router.navigate(['/home']);
-  return false;
+  return true;
 };

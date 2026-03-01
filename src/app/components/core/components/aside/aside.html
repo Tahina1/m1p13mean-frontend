@@ -1,1 +1,25 @@
-<p>aside works!</p>
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <div class="picture">
+      <img src="assets/images/mean-logo.svg" alt="MEAN Mall" />
+    </div>
+    <span class="sidebar__logo-text">Admin</span>
+  </div>
+
+  <nav class="sidebar__menu">
+    <a routerLink="/admin/dashboard" routerLinkActive="sidebar__item--active" class="sidebar__item">
+      <i class="icn-home"></i>
+      Dashboard
+    </a>
+
+    <a routerLink="/admin/users" routerLinkActive="sidebar__item--active" class="sidebar__item">
+      <i class="icn-user"></i>
+      Utilisateurs
+    </a>
+
+    <a routerLink="/admin/shops" routerLinkActive="sidebar__item--active" class="sidebar__item">
+      <i class="icn-cart"></i>
+      Boutiques
+    </a>
+  </nav>
+</aside>
