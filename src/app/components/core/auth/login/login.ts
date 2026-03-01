@@ -26,19 +26,19 @@ export class Login {
 
     this.authService.login(data).subscribe({
       next: (res: any) => {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('user', JSON.stringify(res.user));
+        sessionStorage.setItem('token', res.token);
+        sessionStorage.setItem('user', JSON.stringify(res.user));
         this.authService.userSignal.set(res.user);
         this.authService.setAuthPopup(false);
 
         const role = res.user.roles?.[0];
 
         if (role === 'ADMIN') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/admin'], { replaceUrl: true });
         } else if (role === 'SHOP') {
-          this.router.navigate(['/shop-dashboard']);
+          this.router.navigate(['/shop-dashboard'], { replaceUrl: true });
         } else {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home'], { replaceUrl: true });
         }
 
         this.authService.loading.set(false);

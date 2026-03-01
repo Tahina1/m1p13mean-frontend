@@ -1,0 +1,98 @@
+.dashboard {
+  &__stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  &__card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  }
+
+  &__icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+    &--red {
+      background: #b30000;
+    }
+    &--dark {
+      background: #222;
+    }
+  }
+
+  &__number {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__label {
+    font-size: 13px;
+    color: #777;
+    margin: 0;
+  }
+
+  &__tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+
+  &__table {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+
+    h3 {
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        text-align: left;
+        font-size: 13px;
+        padding-bottom: 10px;
+        color: #666;
+      }
+
+      td {
+        padding: 12px 0;
+        border-top: 1px solid #eee;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+
+  &--active {
+    background: #e6f7ee;
+    color: #1e8e5a;
+  }
+
+  &--inactive {
+    background: #fdeaea;
+    color: #c0392b;
+  }
+}

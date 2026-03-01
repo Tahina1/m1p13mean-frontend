@@ -50,26 +50,4 @@
       font-weight: 600;
     }
   }
-
-  &__logout {
-    margin-top: auto;
-
-    button {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.25);
-      border: none;
-      color: white;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-
-      &:hover {
-        background: rgba(0, 0, 0, 0.4);
-      }
-    }
-  }
 }

@@ -8,9 +8,8 @@
       </button> -->
     </div>
 
-    <button class="dashboard__add-btn">+ Ajouter un produit</button>
+    <button class="dashboard__add-btn" (click)="openModal()">+ Ajouter un produit</button>
   </div>
-
   <div class="dashboard__stats">
     <div class="dashboard__card dashboard__card--products">
       <div class="dashboard__card-icon">👜</div>
@@ -36,7 +35,6 @@
       </div>
     </div>
   </div>
-
   <div class="dashboard__content">
     <div class="dashboard__feedback">
       <h3 class="dashboard__section-title">Avis des clients</h3>
@@ -57,7 +55,6 @@
         </div>
       </div>
     </div>
-
     <div class="dashboard__actions">
       <h3 class="dashboard__section-title">Gestion rapide</h3>
 
@@ -67,3 +64,5 @@
     </div>
   </div>
 </div>
+
+<app-product-modal [isOpen]="isModalOpen" (closeModal)="isModalOpen = false"></app-product-modal>
