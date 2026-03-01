@@ -17,7 +17,12 @@ export class Header implements OnInit {
   cartBounce = signal(false);
 
   goToCart() {
-    this.router.navigate(['/cart']);
+    if (!this.authService.isLoggedIn()) {
+      this.authService.setAuthPopup(true);
+      return;
+    } else {
+      this.router.navigate(['/cart']);
+    }
   }
   ngOnInit() {
     const stored = localStorage.getItem('user');
@@ -30,7 +35,6 @@ export class Header implements OnInit {
     this.cartService.cartUpdated$.subscribe(() => {
       this.triggerCartBounce();
     });
-    console.log(this.cartService.cartCount());
   }
 
   triggerCartBounce() {

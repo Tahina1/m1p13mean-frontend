@@ -19,8 +19,6 @@ export class ShopLayout {
   ngOnInit() {
     const shopId = this.authService.shopId();
 
-    console.log('MY SHOP ID =', shopId);
-
     if (!shopId) {
       console.error('No shop linked');
       return;
@@ -28,7 +26,6 @@ export class ShopLayout {
 
     this.shopService.getShopById(shopId).subscribe((res) => {
       this.shop.set(res);
-      console.log('MY SHOP =', res);
     });
   }
 

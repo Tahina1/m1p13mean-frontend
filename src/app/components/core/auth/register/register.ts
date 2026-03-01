@@ -57,7 +57,6 @@ export class Register {
             password: body.password,
           })
           .subscribe((loginRes: any) => {
-            console.log('AUTO LOGIN =', loginRes);
             localStorage.setItem('token', loginRes.accessToken);
             localStorage.setItem('user', JSON.stringify(loginRes.user));
             this.authService.userSignal.set(loginRes.user);
