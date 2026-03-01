@@ -4,6 +4,31 @@
   background: #f6f6f6;
   font-family: 'Poppins', sans-serif;
 
+  &__profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #b30000;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+
+    &:hover {
+      background: #870000;
+    }
+  }
+
   &__main {
     flex: 1;
     display: flex;
