@@ -4,7 +4,7 @@ import { CanActivateFn, Router } from '@angular/router';
 export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
 
-  const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
 
   if (!user) {
     router.navigate(['/']);

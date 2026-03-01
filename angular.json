@@ -54,11 +54,12 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
+            "development": {
+              "buildTarget": "m1p13mean-frontend:build:development",
+              "proxyConfig": "proxy.conf.json"
+            },
             "production": {
               "buildTarget": "m1p13mean-frontend:build:production"
-            },
-            "development": {
-              "buildTarget": "m1p13mean-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

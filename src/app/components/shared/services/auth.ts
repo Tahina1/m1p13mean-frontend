@@ -15,15 +15,18 @@ export class AuthService {
   isLogged = signal(false);
   currentUser: any = signal({});
   userSignal = signal<any>(null);
+  shopId = signal<string | null>(null);
   loading = signal(false);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
-      const user = sessionStorage.getItem('user');
-      const token = sessionStorage.getItem('token');
+      const user = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
 
       if (user && token) {
-        this.userSignal.set(JSON.parse(user));
+        const parsed = JSON.parse(user);
+        this.userSignal.set(parsed);
+        this.shopId.set(parsed.shopId || null);
         this.isLogged.set(true);
       }
     }
@@ -31,7 +34,7 @@ export class AuthService {
 
   getAuth(): string {
     if (isPlatformBrowser(this.platformId)) {
-      return sessionStorage.getItem('token') ?? '';
+      return localStorage.getItem('token') ?? '';
     }
     return '';
   }
@@ -66,12 +69,12 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return !!sessionStorage.getItem('token');
+    return !!localStorage.getItem('token');
   }
 
   logout() {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.userSignal.set(null);
   }
 }
