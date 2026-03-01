@@ -5,8 +5,10 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [RouterOutlet, Aside],
+  imports: [Aside, RouterOutlet],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.scss',
 })
-export class AdminLayout {}
+export class AdminLayout {
+  authService = inject(AuthService);
+}
