@@ -7,36 +7,46 @@
       <button class="product-modal__close" (click)="close()">✕</button>
     </div>
 
-    <form class="product-modal__form">
+    <form class="product-modal__form" (ngSubmit)="submit()" #f="ngForm">
+      <!-- NAME -->
       <div class="product-modal__group">
         <label>Nom du produit</label>
-        <input type="text" placeholder="iPhone 14 Pro" />
+        <input type="text" [(ngModel)]="name" name="name" required />
       </div>
 
+      <!-- DESCRIPTION -->
       <div class="product-modal__group">
         <label>Description</label>
-        <textarea></textarea>
+        <textarea [(ngModel)]="description" name="description"></textarea>
       </div>
 
+      <!-- PRICE -->
       <div class="product-modal__group">
         <label>Prix</label>
-        <input type="number" placeholder="1200" />
+        <input type="number" [(ngModel)]="price" name="price" required />
       </div>
 
+      <!-- CATEGORY -->
       <div class="product-modal__group">
         <label>Catégorie</label>
-        <select>
-          <option>Choisir catégorie</option>
+        <select [(ngModel)]="categoryId" name="categoryId">
+          <option value="">Choisir catégorie</option>
+
+          @for (cat of categories(); track cat._id) {
+            <option [value]="cat._id">{{ cat.name }}</option>
+          }
         </select>
       </div>
 
+      <!-- IMAGES -->
       <div class="product-modal__group">
         <label>Images</label>
-        <input type="file" multiple />
+        <input type="file" multiple (change)="onFiles($event)" />
       </div>
 
+      <!-- ACTIVE -->
       <div class="product-modal__switch">
-        <input type="checkbox" checked />
+        <input type="checkbox" [(ngModel)]="isActive" name="isActive" />
         <span>Produit actif</span>
       </div>
 
