@@ -1,0 +1,115 @@
+.shops-page {
+  padding: 40px 60px;
+  font-family: 'Poppins', sans-serif;
+  background: #f7f7f7;
+  min-height: 100vh;
+
+  &__header {
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #777;
+      font-size: 15px;
+    }
+  }
+
+  &__loading {
+    text-align: center;
+    padding: 80px;
+    font-size: 18px;
+    color: #888;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+  }
+}
+
+/* SHOP CARD */
+.shop-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  transition: 0.25s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  }
+
+  &__image {
+    height: 180px;
+    background: #eee;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    padding: 18px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+  }
+
+  &__category {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 15px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__btn {
+    background: linear-gradient(135deg, #b30000, #7a0000);
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+/* STATUS */
+.status {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+
+  &.active {
+    background: #e8f8f0;
+    color: #1e8e5a;
+  }
+
+  &.inactive {
+    background: #fdeaea;
+    color: #c0392b;
+  }
+}
