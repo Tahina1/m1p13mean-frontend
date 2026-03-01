@@ -24,4 +24,8 @@ export class ProductService {
   updateProduct(id: string, data: FormData) {
     return this.http.patch(`api/products/${id}`, data);
   }
+
+  getProductsByShop(shopId: string) {
+    return this.http.get(`api/products?shopId=${shopId}`);
+  }
 }

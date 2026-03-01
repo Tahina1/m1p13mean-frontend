@@ -1,0 +1,47 @@
+<div class="shop-products">
+  <!-- HEADER -->
+  <div class="shop-products__header">
+    <button class="back" routerLink="/shops">← Back</button>
+
+    <div>
+      <h1>{{ shopName() }}</h1>
+      <p>{{ products().length }} produits disponibles</p>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  @if (loading()) {
+    <div class="loading">Chargement produits...</div>
+  }
+
+  <!-- EMPTY -->
+  @if (!loading() && products().length === 0) {
+    <div class="empty">Aucun produit pour cette boutique 😢</div>
+  }
+
+  <!-- GRID -->
+  @if (!loading() && products().length > 0) {
+    <div class="products-grid">
+      @for (p of products(); track p._id) {
+        <div class="product-card">
+          <div class="product-card__img">
+            <img [src]="p.images?.[0]" />
+          </div>
+
+          <div class="product-card__content">
+            <h3>{{ p.name }}</h3>
+            <p class="price">{{ p.price }} Ar</p>
+
+            <div class="product-card__bottom">
+              <span class="status" [class.active]="p.isActive" [class.inactive]="!p.isActive">
+                {{ p.isActive ? 'Disponible' : 'Indisponible' }}
+              </span>
+
+              <button class="view">Voir</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

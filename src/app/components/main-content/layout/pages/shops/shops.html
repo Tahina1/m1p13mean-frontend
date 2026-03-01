@@ -1,0 +1,42 @@
+<div class="shops-page">
+  <!-- HEADER -->
+  <div class="shops-page__header">
+    <h1>Toutes les boutiques</h1>
+    <p>Découvrez toutes les boutiques du centre commercial</p>
+  </div>
+
+  <!-- LOADING -->
+  @if (loading()) {
+    <div class="shops-page__loading">Chargement des boutiques...</div>
+  }
+
+  <!-- SHOPS GRID -->
+  @if (!loading()) {
+    <div class="shops-page__grid">
+      @for (shop of shops(); track shop._id) {
+        <div class="shop-card">
+          <div class="shop-card__image">
+            <img [src]="shop.gallery?.[0] || 'assets/images/shop-placeholder.jpg'" alt="shop" />
+          </div>
+
+          <div class="shop-card__content">
+            <h3>{{ shop.name }}</h3>
+            <p class="shop-card__category">{{ shop.category }}</p>
+
+            <div class="shop-card__footer">
+              <span
+                class="status"
+                [class.active]="shop.status === 'ACTIVE'"
+                [class.inactive]="shop.status !== 'ACTIVE'"
+              >
+                {{ shop.status }}
+              </span>
+
+              <button class="shop-card__btn" (click)="openShop(shop._id)">Voir boutique →</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
