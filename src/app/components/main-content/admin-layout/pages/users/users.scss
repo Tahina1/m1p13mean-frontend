@@ -132,3 +132,21 @@
     }
   }
 }
+
+.users__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users__table thead,
+.users__table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.users__table tbody {
+  display: block;
+  max-height: 420px;
+  overflow-y: auto;
+}

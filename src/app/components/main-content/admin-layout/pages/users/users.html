@@ -8,6 +8,15 @@
 
   <div class="users__card">
     <table class="users__table">
+      @if (loading()) {
+        <div class="global-spinner">
+          <i class="icn-spinner2 spinner"></i>
+        </div>
+      }
+
+      @if (!loading() && users().length === 0) {
+        <div class="empty">Aucun utilisateur</div>
+      }
       <thead>
         <tr>
           <th>Nom</th>
@@ -26,11 +35,17 @@
             <td>
               <span
                 class="role"
-                [class.role--admin]="user?.roles?.[0] === 'ADMIN'"
-                [class.role--shop]="user?.roles?.[0] === 'SHOP'"
-                [class.role--client]="user?.roles?.[0] === 'CLIENT'"
+                [class.role--admin]="user.roles.includes('ADMIN')"
+                [class.role--shop]="!user.roles.includes('ADMIN') && user.roles.includes('SHOP')"
+                [class.role--client]="!user.roles.includes('ADMIN') && !user.roles.includes('SHOP')"
               >
-                {{ user?.roles?.[0] }}
+                {{
+                  user.roles.includes('ADMIN')
+                    ? 'ADMIN'
+                    : user.roles.includes('SHOP')
+                      ? 'SHOP'
+                      : 'CLIENT'
+                }}
               </span>
             </td>
 
@@ -54,9 +69,6 @@
   </div>
 
   <!-- pagination -->
-  <div class="pagination">
-    <button (click)="prevPage()" [disabled]="page() === 1">←</button>
-    <span>Page {{ page() }} / {{ totalPages() }}</span>
-    <button (click)="nextPage()" [disabled]="page() === totalPages()">→</button>
-  </div>
+  <app-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="onPageChange($event)">
+  </app-pagination>
 </div>

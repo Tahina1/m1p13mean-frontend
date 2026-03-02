@@ -27,4 +27,8 @@ export class ShopService {
   updateShop(id: string, data: FormData) {
     return this.http.patch(`api/shops/${id}`, data);
   }
+
+  updateShopStatus(id: string, status: string) {
+    return this.http.patch(`api/shops/${id}/status`, { status });
+  }
 }
