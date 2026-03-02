@@ -1,10 +1,11 @@
-import { CheckoutModal } from '@/components/main-content/shop-layout/pages/checkout-modal/checkout-modal';
+import { CheckoutModal } from '@/components/main-content/layout/pages/checkout-modal/checkout-modal';
 import { CartService } from '@/components/shared/services/cart-service';
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [CheckoutModal],
+  imports: [CheckoutModal, RouterLink],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })

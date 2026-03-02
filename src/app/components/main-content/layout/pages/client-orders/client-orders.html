@@ -1,7 +1,8 @@
 <div class="orders-page">
+  <!-- HEADER -->
   <div class="top-bar">
-    <button class="back-btn" routerLink="/shop-dashboard/dashboard">← Retour dashboard</button>
-    <h1>Commandes reçues</h1>
+    <button routerLink="/shops" class="back-btn">← Continuer mes achats</button>
+    <h1>Mes commandes</h1>
   </div>
 
   @if (loading()) {
@@ -9,14 +10,19 @@
   }
 
   @if (!loading() && orders().length === 0) {
-    <div class="empty">Aucune commande pour le moment.</div>
+    <div class="empty">
+      <i class="icn-cart"></i>
+      <h3>Aucune commande pour le moment</h3>
+      <button routerLink="/home">Commencer mes achats</button>
+    </div>
   }
 
   @for (order of orders(); track order._id) {
     <div class="order-card">
+      <!-- HEADER -->
       <div class="order-header">
         <div>
-          <h3>Commande #{{ order._id.slice(-6) }}</h3>
+          <h3>{{ order.shopName }}</h3>
           <span class="date">
             {{ order.createdAt | date: 'dd MMM yyyy - HH:mm' }}
           </span>
@@ -32,11 +38,7 @@
         </span>
       </div>
 
-      <div class="client">
-        <p><strong>Client:</strong> {{ order.billingDetails.name }}</p>
-        <p><strong>Adresse:</strong> {{ order.shippingAddress }}</p>
-      </div>
-
+      <!-- PRODUCTS -->
       <div class="products">
         @for (item of order.items; track item.productName) {
           <div class="product-line">
@@ -46,17 +48,23 @@
         }
       </div>
 
+      <!-- FOOTER -->
       <div class="footer">
         <h4>Total: {{ order.totalAmount }} Ar</h4>
 
-        @if (order.status === 'Processing') {
-          <div class="actions">
-            <button class="accept" (click)="updateStatus(order._id, 'ACCEPTED')">Accepter</button>
-
-            <button class="reject" (click)="updateStatus(order._id, 'REJECTED')">Refuser</button>
-          </div>
+        @if (order.status === 'ACCEPTED') {
+          <button class="reorder">Commander à nouveau</button>
         }
       </div>
+    </div>
+  }
+
+  <!-- PAGINATION -->
+  @if (totalPages() > 1) {
+    <div class="pagination">
+      <button (click)="changePage(page() - 1)" [disabled]="page() === 1">←</button>
+      <span>Page {{ page() }} / {{ totalPages() }}</span>
+      <button (click)="changePage(page() + 1)" [disabled]="page() === totalPages()">→</button>
     </div>
   }
 </div>

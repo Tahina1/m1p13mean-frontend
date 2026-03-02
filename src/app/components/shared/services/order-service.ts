@@ -11,8 +11,12 @@ export class OrderService {
     return this.http.get('api/orders/shop');
   }
 
-  getShopOrderById(id: string | null) {
-    return this.http.get(`api/orders/shop/${id}`);
+  getShopOrderById(page = 1) {
+    return this.http.get(`api/orders/shop/?page=${page}`);
+  }
+
+  getClientOrderById(page = 1) {
+    return this.http.get(`api/orders/me/?page=${page}`);
   }
 
   updateShopOrder(id: string, status: string) {

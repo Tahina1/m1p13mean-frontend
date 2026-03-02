@@ -1,10 +1,12 @@
 import { AuthService } from '@/components/shared/services/auth';
 import { OrderService } from '@/components/shared/services/order-service';
+import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
-  imports: [],
+  imports: [CommonModule, RouterLink],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
@@ -18,7 +20,7 @@ export class Orders {
 
   ngOnInit() {
     this.shopId = this.authService.shopId();
-    this.orderService.getShopOrderById(this.shopId).subscribe((res: any) => {
+    this.orderService.getShopOrderById().subscribe((res: any) => {
       this.orders.set(res.orders);
       this.loading.set(false);
     });

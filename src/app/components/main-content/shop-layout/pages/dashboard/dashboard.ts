@@ -44,8 +44,8 @@ export class Dashboard {
       },
     });
 
-    this.orderService.getShopOrders().subscribe((res: any) => {
-      console.log(res);
+    this.orderService.getShopOrderById().subscribe((res: any) => {
+      this.orderNumber = res.total;
     });
   }
 
