@@ -1,0 +1,62 @@
+<div class="orders-page">
+  <div class="top-bar">
+    <button class="back-btn" routerLink="/shop-dashboard/dashboard">← Retour dashboard</button>
+    <h1>Commandes reçues</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Chargement des commandes...</div>
+  }
+
+  @if (!loading() && orders().length === 0) {
+    <div class="empty">Aucune commande pour le moment.</div>
+  }
+
+  @for (order of orders(); track order._id) {
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <h3>Commande #{{ order._id.slice(-6) }}</h3>
+          <span class="date">
+            {{ order.createdAt | date: 'dd MMM yyyy - HH:mm' }}
+          </span>
+        </div>
+
+        <span
+          class="status"
+          [class.processing]="order.status === 'Processing'"
+          [class.accepted]="order.status === 'ACCEPTED'"
+          [class.rejected]="order.status === 'REJECTED'"
+        >
+          {{ order.status }}
+        </span>
+      </div>
+
+      <div class="client">
+        <p><strong>Client:</strong> {{ order.billingDetails.name }}</p>
+        <p><strong>Adresse:</strong> {{ order.shippingAddress }}</p>
+      </div>
+
+      <div class="products">
+        @for (item of order.items; track item.productName) {
+          <div class="product-line">
+            <span>{{ item.productName }}</span>
+            <b>x{{ item.quantity }}</b>
+          </div>
+        }
+      </div>
+
+      <div class="footer">
+        <h4>Total: {{ order.totalAmount }} Ar</h4>
+
+        @if (order.status === 'Processing') {
+          <div class="actions">
+            <button class="accept" (click)="updateStatus(order._id, 'ACCEPTED')">Accepter</button>
+
+            <button class="reject" (click)="updateStatus(order._id, 'REJECTED')">Refuser</button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

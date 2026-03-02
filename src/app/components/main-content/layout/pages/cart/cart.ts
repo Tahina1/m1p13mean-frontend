@@ -1,9 +1,11 @@
+import { CheckoutModal } from '@/components/main-content/layout/pages/checkout-modal/checkout-modal';
 import { CartService } from '@/components/shared/services/cart-service';
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [],
+  imports: [CheckoutModal, RouterLink],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })
@@ -13,6 +15,7 @@ export class Cart {
   cart = signal<any>(null);
   loading = signal(true);
   totalAmount = 0;
+  checkoutModal = signal<any>(null);
 
   ngOnInit() {
     this.loadCart();
@@ -51,10 +54,9 @@ export class Cart {
     });
   }
 
-  checkout() {
-    this.cartService.checkout().subscribe(() => {
-      alert('Commande validée 🛍️');
-      this.loadCart();
-    });
+  onCheckoutSuccess() {
+    alert('Commande validée 🎉');
+    this.cartService.refreshCartCount();
+    this.loadCart();
   }
 }
