@@ -1,0 +1,19 @@
+@if (isOpen) {
+  <div class="confirm-overlay" (click)="onCancel()"></div>
+
+  <div class="confirm-box">
+    <h3 class="confirm-title">Confirmation</h3>
+
+    <p class="confirm-message">
+      {{ message }}
+      @if (itemName) {
+        <strong> {{ itemName }}</strong>
+      }
+    </p>
+
+    <div class="confirm-actions">
+      <button class="btn-cancel" (click)="onCancel()">Annuler</button>
+      <button class="btn-delete" (click)="onConfirm()">Supprimer</button>
+    </div>
+  </div>
+}

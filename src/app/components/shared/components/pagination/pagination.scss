@@ -1,0 +1,35 @@
+@use '../../../../../assets/scss/commons/variable' as *;
+
+.pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  font-family: Poppins;
+
+  span {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  button {
+    background: $color-primary1;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}

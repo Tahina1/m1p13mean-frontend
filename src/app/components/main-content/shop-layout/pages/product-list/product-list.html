@@ -1,7 +1,11 @@
 <div class="products-dashboard">
+  <div class="top-bar">
+    <button class="back-btn" routerLink="/shop-dashboard/dashboard">← Retour dashboard</button>
+  </div>
+
   <div class="products-dashboard__header">
     <h1>Mes Produits</h1>
-    <button class="add-btn">+ Ajouter produit</button>
+    <button class="add-btn" (click)="openCreate()">+ Ajouter produit</button>
   </div>
 
   @if (loading()) {
@@ -28,7 +32,7 @@
         @for (product of products(); track product._id) {
           <tr>
             <td>
-              <img [src]="product.images?.[0]" alt="product" class="product-img" />
+              <img [src]="product?.images?.[0]" alt="product" class="product-img" />
             </td>
 
             <td>{{ product.name }}</td>
@@ -45,12 +49,31 @@
             </td>
 
             <td class="actions">
-              <button class="edit">Modifier</button>
-              <button class="delete" (click)="deleteProduct(product._id)">Supprimer</button>
+              <button class="edit" (click)="openEdit(product)">Modifier</button>
+              <button class="delete" (click)="openDelete(product)">Supprimer</button>
             </td>
           </tr>
         }
       </tbody>
     </table>
+    <app-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="onPageChange($event)">
+    </app-pagination>
   }
 </div>
+
+<app-product-modal
+  [isOpen]="isModalOpen"
+  [editProduct]="editingProduct"
+  (closeModal)="isModalOpen = false"
+  (created)="reloadProducts()"
+>
+</app-product-modal>
+
+<app-confirm-modal
+  [isOpen]="deletePopup()"
+  message="Supprimer le produit"
+  [itemName]="productName()"
+  (confirm)="confirmDelete()"
+  (cancel)="deletePopup.set(false)"
+>
+</app-confirm-modal>
