@@ -1,0 +1,176 @@
+@use '../../../../../../assets/scss/commons/variable' as *;
+
+.products-dashboard {
+  padding: 35px 40px;
+  font-family: Poppins;
+  background: #f6f7fb;
+  min-height: 100vh;
+}
+
+/* 🔙 top bar */
+.top-bar {
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: $color-primary1;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 0;
+  transition: 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+/* header */
+.products-dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #111;
+  }
+}
+
+/* 🔴 ADD BUTTON (brand color) */
+.add-btn {
+  background: $color-primary1;
+  border: none;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+}
+
+/* 🧊 TABLE CARD */
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+
+  th,
+  td {
+    padding: 18px;
+    text-align: left;
+  }
+
+  thead {
+    background: #fafafa;
+    font-weight: 600;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 1px solid #eee;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #f1f1f1;
+    transition: 0.2s;
+
+    &:hover {
+      background: #fff5f5;
+    }
+  }
+}
+
+/* 🖼 image */
+.product-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #f3f3f3;
+  padding: 4px;
+}
+
+/* 🟢 STATUS */
+.status {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.active {
+    background: rgba(0, 180, 120, 0.12);
+    color: #0f9d58;
+  }
+
+  &.inactive {
+    background: rgba(220, 0, 0, 0.08);
+    color: $color-primary1;
+  }
+}
+
+/* ⚡ ACTIONS */
+.actions {
+  display: flex;
+  gap: 10px;
+
+  button {
+    border: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+  }
+
+  .edit {
+    background: rgba(0, 0, 0, 0.06);
+    color: #111;
+
+    &:hover {
+      background: #111;
+      color: white;
+    }
+  }
+
+  .delete {
+    background: rgba(220, 0, 0, 0.08);
+    color: $color-primary1;
+
+    &:hover {
+      background: $color-primary1;
+      color: white;
+    }
+  }
+}
+
+/* 🧊 loading & empty */
+.loading,
+.empty {
+  background: white;
+  padding: 60px;
+  text-align: center;
+  border-radius: 16px;
+  color: #888;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.preview-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 8px;
+}

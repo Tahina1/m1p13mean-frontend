@@ -3,11 +3,13 @@ import { inject, Injectable, PLATFORM_ID, signal, WritableSignal } from '@angula
 import { HttpRequestService } from './http-request';
 import { Observable } from 'rxjs';
 import { DefaultData } from '../models/global';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly router = inject(Router);
   loginPopup = signal(false);
   private readonly http = inject(HttpRequestService);
   private readonly platformId = inject(PLATFORM_ID);
@@ -76,5 +78,6 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.userSignal.set(null);
+    this.router.navigate(['/home']);
   }
 }

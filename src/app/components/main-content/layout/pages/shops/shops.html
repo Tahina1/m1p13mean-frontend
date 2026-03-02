@@ -24,14 +24,6 @@
             <p class="shop-card__category">{{ shop.category }}</p>
 
             <div class="shop-card__footer">
-              <span
-                class="status"
-                [class.active]="shop.status === 'ACTIVE'"
-                [class.inactive]="shop.status !== 'ACTIVE'"
-              >
-                {{ shop.status }}
-              </span>
-
               <button class="shop-card__btn" (click)="openShop(shop._id)">Voir boutique →</button>
             </div>
           </div>

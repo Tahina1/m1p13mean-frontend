@@ -25,7 +25,7 @@ export class ProductService {
     return this.http.patch(`api/products/${id}`, data);
   }
 
-  getProductsByShop(shopId: string) {
-    return this.http.get(`api/products?shopId=${shopId}`);
+  getProductsByShop(shopId: string, page = 1, limit = 5) {
+    return this.http.get(`api/products?shopId=${shopId}&page=${page}&limit=${limit}`);
   }
 }
