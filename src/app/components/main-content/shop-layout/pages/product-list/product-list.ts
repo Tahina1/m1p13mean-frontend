@@ -94,7 +94,7 @@ export class ProductList {
 
     this.loading.set(true);
 
-    this.productService.getProductsByShop(shopId + `&page=${this.page()}`).subscribe({
+    this.productService.getProductsByShop(shopId, this.page()).subscribe({
       next: (res: any) => {
         this.products.set(res.products);
         this.totalPages.set(res.pagination.totalPages);
