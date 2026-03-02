@@ -32,6 +32,7 @@ export class ProductModal {
     price: [0, Validators.required],
     categoryId: [''],
     isActive: [true],
+    stock: [0, [Validators.required, Validators.min(0)]],
   });
 
   ngOnInit() {
@@ -47,6 +48,7 @@ export class ProductModal {
           price: this.editProduct?.price || 0,
           isActive: this.editProduct?.isActive ?? true,
           categoryId: this.editProduct?.categoryIds?.[0]?._id || '',
+          stock: this.editProduct?.stock || 0,
         });
       });
     }
@@ -80,6 +82,7 @@ export class ProductModal {
     formData.append('price', String(v.price || 0));
     formData.append('shopId', shopId);
     formData.append('isActive', String(v.isActive ?? true));
+    formData.append('stock', String(v.stock || 0));
 
     if (v.categoryId) {
       formData.append('categoryIds', v.categoryId);
@@ -119,6 +122,7 @@ export class ProductModal {
       price: 0,
       categoryId: '',
       isActive: true,
+      stock: 0,
     });
 
     this.files = [];

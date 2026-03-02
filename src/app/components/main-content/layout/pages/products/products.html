@@ -25,23 +25,23 @@
       @for (p of products(); track p._id) {
         <div class="product-card">
           <div class="product-card__img">
-            <img [src]="p.images?.[0]" />
+            <img [src]="p?.images?.[0]" />
           </div>
 
           <div class="product-card__content">
             <h3>{{ p.name }}</h3>
             <p class="price">{{ p.price }} Ar</p>
-            <button class="add-cart-btn" (click)="addToCart(p._id)">
-              <i class="icn-cart"></i>
-              Ajouter au panier
-            </button>
 
             <div class="product-card__bottom">
-              <span class="status" [class.active]="p.isActive" [class.inactive]="!p.isActive">
-                {{ p.isActive ? 'Disponible' : 'Indisponible' }}
-              </span>
+              <div class="qty-cart">
+                <div class="qty-box">
+                  <button (click)="decrease(p._id)">−</button>
+                  <span>{{ quantities()[p._id] }}</span>
+                  <button (click)="increase(p._id)">+</button>
+                </div>
 
-              <button class="view">Voir</button>
+                <button class="add-btn" (click)="addToCart(p._id)">Ajouter</button>
+              </div>
             </div>
           </div>
         </div>

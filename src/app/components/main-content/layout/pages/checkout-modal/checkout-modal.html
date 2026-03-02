@@ -1,0 +1,18 @@
+<div class="checkout-modal" [class.open]="isOpen()">
+  <div class="overlay" (click)="close()"></div>
+
+  <div class="panel">
+    <h2>Finaliser commande</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input placeholder="Nom complet" formControlName="name" />
+      <input placeholder="Email" formControlName="email" />
+      <input placeholder="Téléphone" formControlName="phone" />
+      <textarea placeholder="Adresse livraison" formControlName="address"></textarea>
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Validation...' : 'Confirmer commande' }}
+      </button>
+    </form>
+  </div>
+</div>

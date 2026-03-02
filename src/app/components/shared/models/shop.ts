@@ -4,7 +4,7 @@ export interface Shop {
   name: string;
   location: Location;
   category: string;
-  status: 'ACTIVE' | 'PENDING';
+  status: 'ACTIVE' | 'PENDING' | 'SUSPENDED';
 }
 
 export interface Location {

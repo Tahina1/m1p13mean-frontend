@@ -1,5 +1,9 @@
 <div class="cart-page">
-  <h1 class="cart-page__title">Votre panier</h1>
+  <div class="cart-header">
+    <h1 class="cart-page__title">Votre panier</h1>
+
+    <button class="orders-btn" routerLink="/my-orders">Voir mes commandes</button>
+  </div>
 
   @if (loading()) {
     <p>Chargement...</p>
@@ -41,7 +45,8 @@
     <div class="cart-summary">
       <h2>Total: {{ totalAmount }} Ar</h2>
 
-      <button class="checkout" (click)="checkout()">Valider la commande</button>
+      <button class="checkout" (click)="checkoutModalRef.open()">Valider la commande</button>
     </div>
   }
 </div>
+<app-checkout-modal #checkoutModalRef (success)="onCheckoutSuccess()"></app-checkout-modal>
