@@ -1,0 +1,56 @@
+<div class="products-dashboard">
+  <div class="products-dashboard__header">
+    <h1>Mes Produits</h1>
+    <button class="add-btn">+ Ajouter produit</button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Chargement...</div>
+  }
+
+  @if (!loading() && products().length === 0) {
+    <div class="empty">Aucun produit pour votre boutique.</div>
+  }
+
+  @if (!loading() && products().length > 0) {
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Nom</th>
+          <th>Prix</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (product of products(); track product._id) {
+          <tr>
+            <td>
+              <img [src]="product.images?.[0]" alt="product" class="product-img" />
+            </td>
+
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }} Ar</td>
+
+            <td>
+              <span
+                class="status"
+                [class.active]="product.isActive"
+                [class.inactive]="!product.isActive"
+              >
+                {{ product.isActive ? 'Actif' : 'Inactif' }}
+              </span>
+            </td>
+
+            <td class="actions">
+              <button class="edit">Modifier</button>
+              <button class="delete" (click)="deleteProduct(product._id)">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
