@@ -1,0 +1,31 @@
+<h1>Commandes reçues</h1>
+
+@if (loading()) {
+  <p>Chargement...</p>
+}
+
+@for (order of orders(); track order._id) {
+  <div class="order-card">
+    <div class="order-header">
+      <h3>Commande #{{ order._id }}</h3>
+      <span class="status">{{ order.status }}</span>
+    </div>
+
+    <p><strong>Client:</strong> {{ order.billingDetails.name }}</p>
+    <p><strong>Téléphone:</strong> {{ order.billingDetails.phone }}</p>
+
+    <div class="products">
+      @for (item of order.items; track item._id) {
+        <div>{{ item.productId.name }} x{{ item.quantity }}</div>
+      }
+    </div>
+
+    <h4>Total: {{ order.totalAmount }} Ar</h4>
+
+    <div class="actions">
+      <button (click)="updateStatus(order._id, 'ACCEPTED')">Accepter</button>
+
+      <button (click)="updateStatus(order._id, 'REJECTED')">Refuser</button>
+    </div>
+  </div>
+}

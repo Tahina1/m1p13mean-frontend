@@ -13,8 +13,11 @@ export class CartService {
   notifyCartUpdated() {
     this.cartUpdated$.next();
   }
-  addToCart(productId: string) {
-    return this.http.post('api/cart/items', { productId });
+  addToCart(productId: string, quantity: number = 1) {
+    return this.http.post('api/cart/items', {
+      productId,
+      quantity,
+    });
   }
 
   getCart() {
@@ -35,7 +38,7 @@ export class CartService {
     return this.http.delete(`api/cart/items/${productId}`);
   }
 
-  checkout() {
-    return this.http.post('api/cart/checkout', {});
+  checkout(data: any) {
+    return this.http.post('api/orders/checkout', data);
   }
 }

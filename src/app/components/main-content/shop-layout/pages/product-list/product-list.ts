@@ -45,6 +45,7 @@ export class ProductList {
       images: product.images || [],
       shopId: product.shopId || '',
       isActive: product.isActive,
+      stock: product.stock,
 
       // 🔥 convert categories → categoryIds
       categoryIds: (product.categories || []).map((id: string) => ({

@@ -4,6 +4,7 @@ import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductModal } from '../product-modal/product-modal';
+import { OrderService } from '@/components/shared/services/order-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,9 +16,11 @@ export class Dashboard {
   authService = inject(AuthService);
   shopService = inject(ShopService);
   productService = inject(ProductService);
+  orderService = inject(OrderService);
   isModalOpen = false;
   shopId: string | null = '';
   totalProducts: number = 0;
+  orderNumber = 0;
 
   shop = signal<any>(null);
 
@@ -39,6 +42,10 @@ export class Dashboard {
 
         this.totalProducts = res.products?.length;
       },
+    });
+
+    this.orderService.getShopOrders().subscribe((res: any) => {
+      console.log(res);
     });
   }
 

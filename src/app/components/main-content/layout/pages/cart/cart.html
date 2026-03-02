@@ -41,7 +41,8 @@
     <div class="cart-summary">
       <h2>Total: {{ totalAmount }} Ar</h2>
 
-      <button class="checkout" (click)="checkout()">Valider la commande</button>
+      <button class="checkout" (click)="checkoutModalRef.open()">Valider la commande</button>
     </div>
   }
 </div>
+<app-checkout-modal #checkoutModalRef (success)="onCheckoutSuccess()"></app-checkout-modal>
