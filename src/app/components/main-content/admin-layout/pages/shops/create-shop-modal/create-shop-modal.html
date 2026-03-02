@@ -9,38 +9,60 @@
       <button class="product-modal__close" (click)="close()">✕</button>
     </div>
 
-    <form class="product-modal__form" (ngSubmit)="submit()" #form="ngForm">
-      <!-- NAME -->
+    <form class="product-modal__form" [formGroup]="form" (ngSubmit)="submit()">
       <div class="product-modal__group">
         <label>Nom boutique</label>
-        <input type="text" [(ngModel)]="name" name="name" required />
+        <input type="text" formControlName="name" />
       </div>
 
-      <!-- CATEGORY -->
       <div class="product-modal__group">
         <label>Catégorie</label>
-        <input type="text" [(ngModel)]="category" name="category" required />
+        <input type="text" formControlName="category" />
       </div>
 
-      <!-- FLOOR -->
       <div class="product-modal__group">
         <label>Étage</label>
-        <input type="text" [(ngModel)]="floor" name="floor" required />
+        <input type="text" formControlName="floor" />
       </div>
 
-      <!-- SHOP NUMBER -->
       <div class="product-modal__group">
         <label>Numéro boutique</label>
-        <input type="text" [(ngModel)]="shopNumber" name="shopNumber" required />
+        <input type="text" formControlName="shopNumber" />
       </div>
 
-      <!-- IMAGES -->
+      <div class="product-modal__group">
+        <label>Propriétaire</label>
+        <select formControlName="ownerId">
+          <option value="">Choisir propriétaire</option>
+          @for (u of shopUsers(); track u._id) {
+            <option [value]="u._id">{{ u.firstName }} {{ u.lastName }} ({{ u.email }})</option>
+          }
+        </select>
+      </div>
+
       <div class="product-modal__group">
         <label>Galerie</label>
         <input type="file" multiple (change)="onFiles($event)" />
+        @if (existingImages().length > 0) {
+          <div class="gallery-preview">
+            @for (img of existingImages(); track img) {
+              <img [src]="img" />
+            }
+          </div>
+        }
       </div>
 
-      <button class="product-modal__submit">
+      @if (mode() === 'edit') {
+        <div class="product-modal__group">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="PENDING">Pending</option>
+            <option value="ACTIVE">Active</option>
+          </select>
+        </div>
+      }
+
+      <button class="product-modal__submit" type="submit">
         {{ mode() === 'create' ? 'Créer boutique' : 'Mettre à jour' }}
       </button>
     </form>

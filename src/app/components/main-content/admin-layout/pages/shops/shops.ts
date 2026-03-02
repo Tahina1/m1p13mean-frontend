@@ -1,8 +1,8 @@
-import { Pagination } from '@/components/shared/models/pagination';
 import { Shop } from '@/components/shared/models/shop';
 import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { CreateShopModal } from './create-shop-modal/create-shop-modal';
+import { Pagination } from '@/components/shared/components/pagination/pagination';
 
 interface ShopApiResponse {
   shops: Shop[];
@@ -11,7 +11,7 @@ interface ShopApiResponse {
 
 @Component({
   selector: 'app-shops',
-  imports: [CreateShopModal],
+  imports: [CreateShopModal, Pagination],
   templateUrl: './shops.html',
   styleUrl: './shops.scss',
 })
@@ -53,18 +53,9 @@ export class Shops {
     });
   }
 
-  nextPage() {
-    if (this.page() < this.totalPages()) {
-      this.page.update((v) => v + 1);
-      this.loadShops();
-    }
-  }
-
-  prevPage() {
-    if (this.page() > 1) {
-      this.page.update((v) => v - 1);
-      this.loadShops();
-    }
+  onPageChange(p: number) {
+    this.page.set(p);
+    this.loadShops();
   }
 
   deleteShop(id: string) {
