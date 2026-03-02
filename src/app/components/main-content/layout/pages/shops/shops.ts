@@ -16,7 +16,8 @@ export class Shops {
 
   ngOnInit() {
     this.shopService.getShops().subscribe((res: any) => {
-      this.shops.set(res.shops);
+      const activeShops = res.shops.filter((s: any) => s.status === 'ACTIVE');
+      this.shops.set(activeShops);
       this.loading.set(false);
     });
   }
