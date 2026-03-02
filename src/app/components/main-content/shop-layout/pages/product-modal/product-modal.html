@@ -3,33 +3,36 @@
 
   <div class="product-modal__panel">
     <div class="product-modal__header">
-      <h2 class="product-modal__title">Ajouter un produit</h2>
+      <h2 class="product-modal__title">
+        {{ editProduct ? 'Modifier produit' : 'Ajouter un produit' }}
+      </h2>
+
       <button class="product-modal__close" (click)="close()">✕</button>
     </div>
 
-    <form class="product-modal__form" (ngSubmit)="submit()" #f="ngForm">
+    <form class="product-modal__form" [formGroup]="form" (ngSubmit)="submit()">
       <!-- NAME -->
       <div class="product-modal__group">
         <label>Nom du produit</label>
-        <input type="text" [(ngModel)]="name" name="name" required />
+        <input type="text" formControlName="name" />
       </div>
 
       <!-- DESCRIPTION -->
       <div class="product-modal__group">
         <label>Description</label>
-        <textarea [(ngModel)]="description" name="description"></textarea>
+        <textarea formControlName="description"></textarea>
       </div>
 
       <!-- PRICE -->
       <div class="product-modal__group">
         <label>Prix</label>
-        <input type="number" [(ngModel)]="price" name="price" required />
+        <input type="number" formControlName="price" />
       </div>
 
       <!-- CATEGORY -->
       <div class="product-modal__group">
         <label>Catégorie</label>
-        <select [(ngModel)]="categoryId" name="categoryId">
+        <select formControlName="categoryId">
           <option value="">Choisir catégorie</option>
 
           @for (cat of categories(); track cat._id) {
@@ -42,15 +45,24 @@
       <div class="product-modal__group">
         <label>Images</label>
         <input type="file" multiple (change)="onFiles($event)" />
+        @if (editProduct?.images?.length) {
+          <div class="existing-images">
+            @for (img of editProduct?.images; track img) {
+              <img [src]="img" class="preview-img" />
+            }
+          </div>
+        }
       </div>
 
       <!-- ACTIVE -->
       <div class="product-modal__switch">
-        <input type="checkbox" [(ngModel)]="isActive" name="isActive" />
+        <input type="checkbox" formControlName="isActive" />
         <span>Produit actif</span>
       </div>
 
-      <button class="product-modal__submit">Ajouter produit</button>
+      <button class="product-modal__submit" type="submit">
+        {{ editProduct ? 'Sauvegarder' : 'Ajouter produit' }}
+      </button>
     </form>
   </div>
 </div>

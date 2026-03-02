@@ -3,7 +3,7 @@ import { ProductService } from '@/components/shared/services/product-service';
 import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ProductModal } from './product-modal/product-modal';
+import { ProductModal } from '../product-modal/product-modal';
 
 @Component({
   selector: 'app-dashboard',
