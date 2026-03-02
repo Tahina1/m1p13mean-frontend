@@ -1,57 +1,75 @@
 import { Component, inject, signal, Output, EventEmitter } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ShopService } from '@/components/shared/services/shop-service';
-import { AuthService } from '@/components/shared/services/auth';
+import { UserService } from '@/components/shared/services/user-service';
+import { User } from '@/components/shared/models/user';
+import { Shop } from '@/components/shared/models/shop';
 
 @Component({
   selector: 'app-create-shop-modal',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-shop-modal.html',
   styleUrl: './create-shop-modal.scss',
 })
 export class CreateShopModal {
+  private fb = inject(FormBuilder);
   private shopService = inject(ShopService);
-  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  existingImages = signal<string[]>([]);
+
   mode = signal<'create' | 'edit'>('create');
+  isOpen = signal(false);
   editingShopId = '';
 
-  isOpen = signal(false);
-
-  name = '';
-  category = '';
-  floor = '';
-  shopNumber = '';
   files: File[] = [];
+  shopUsers = signal<User[]>([]);
 
   @Output() created = new EventEmitter<void>();
 
+  form = this.fb.group({
+    name: ['', Validators.required],
+    category: ['', Validators.required],
+    floor: ['', Validators.required],
+    shopNumber: ['', Validators.required],
+    ownerId: ['', Validators.required],
+    status: ['PENDING'],
+  });
+
   open(shop?: any) {
     this.isOpen.set(true);
+    this.loadShopUsers();
 
     if (shop) {
-      // EDIT MODE
       this.mode.set('edit');
       this.editingShopId = shop._id;
 
-      this.name = shop.name;
-      this.category = shop.category;
-      this.floor = shop.location?.floor || '';
-      this.shopNumber = shop.location?.shopNumber || '';
+      this.form.patchValue({
+        name: shop.name,
+        category: shop.category,
+        floor: shop.location?.floor || '',
+        shopNumber: shop.location?.shopNumber || '',
+        ownerId: shop.ownerId || '',
+        status: shop.status || 'PENDING',
+      });
+      this.existingImages.set(shop.gallery || []);
     } else {
-      // CREATE MODE
       this.mode.set('create');
-      this.resetForm();
+      this.form.reset({
+        name: '',
+        category: '',
+        floor: '',
+        shopNumber: '',
+        ownerId: '',
+        status: 'PENDING',
+      });
+      this.files = [];
     }
   }
-
-  resetForm() {
-    this.name = '';
-    this.category = '';
-    this.floor = '';
-    this.shopNumber = '';
-    this.files = [];
-    this.editingShopId = '';
+  loadShopUsers() {
+    this.userService.getUsers().subscribe((users: User[]) => {
+      this.shopUsers.set(users.filter((u) => u.roles?.includes('SHOP')));
+    });
   }
 
   close() {
@@ -63,40 +81,35 @@ export class CreateShopModal {
   }
 
   submit() {
-    const user = this.authService.currentUser();
-    if (!user) return;
+    if (this.form.invalid) return;
+
+    const v = this.form.value;
 
     const formData = new FormData();
-    formData.append('name', this.name);
-    formData.append('category', this.category);
-    formData.append('location[floor]', this.floor);
-    formData.append('location[shopNumber]', this.shopNumber);
+    formData.append('name', v.name || '');
+    formData.append('category', v.category || '');
+    formData.append('location[floor]', v.floor || '');
+    formData.append('location[shopNumber]', v.shopNumber || '');
+    formData.append('ownerId', v.ownerId || '');
 
-    this.files.forEach((file) => {
-      formData.append('gallery', file);
-    });
+    this.files.forEach((f) => formData.append('gallery', f));
 
     // CREATE
     if (this.mode() === 'create') {
-      formData.append('ownerId', user._id);
+      this.shopService.createShop(formData).subscribe(() => {
+        this.created.emit();
+        this.close();
+      });
+      return;
+    }
 
-      this.shopService.createShop(formData).subscribe({
-        next: () => {
-          this.created.emit();
-          this.close();
-        },
-        error: (err) => console.error(err),
-      });
-    }
     // EDIT
-    else {
-      this.shopService.updateShop(this.editingShopId, formData).subscribe({
-        next: () => {
-          this.created.emit();
-          this.close();
-        },
-        error: (err) => console.error(err),
+    this.shopService.updateShop(this.editingShopId, formData).subscribe(() => {
+      // status update (only if changed)
+      this.shopService.updateShopStatus(this.editingShopId, v.status || 'PENDING').subscribe(() => {
+        this.created.emit();
+        this.close();
       });
-    }
+    });
   }
 }

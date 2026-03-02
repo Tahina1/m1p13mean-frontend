@@ -58,13 +58,8 @@
     </table>
   </div>
 
-  <div class="pagination">
-    <button (click)="prevPage()" [disabled]="page() === 1">←</button>
+  <app-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="onPageChange($event)">
+  </app-pagination>
 
-    <span>Page {{ page() }} / {{ totalPages() }}</span>
-
-    <button (click)="nextPage()" [disabled]="page() === totalPages()">→</button>
-  </div>
+  <app-create-shop-modal #shopModal (created)="loadShops()"></app-create-shop-modal>
 </div>
-
-<app-create-shop-modal #shopModal (created)="loadShops()"></app-create-shop-modal>
