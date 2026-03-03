@@ -96,3 +96,25 @@
     color: #c0392b;
   }
 }
+
+.role {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &--admin {
+    background: #fdeaea;
+    color: #c0392b;
+  }
+
+  &--shop {
+    background: #eaf3ff;
+    color: #2b6cff;
+  }
+
+  &--client {
+    background: #f2f2f2;
+    color: #666;
+  }
+}

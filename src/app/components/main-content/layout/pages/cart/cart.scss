@@ -1,3 +1,5 @@
+@use '../../../../../../assets/scss/commons/variable' as *;
+
 .cart-page {
   max-width: 1000px;
   margin: auto;
@@ -6,7 +8,6 @@
   &__title {
     font-size: 28px;
     font-weight: 600;
-    margin-bottom: 30px;
   }
 }
 
@@ -81,7 +82,7 @@
     background: transparent;
     font-size: 18px;
     cursor: pointer;
-    color: #b30000;
+    color: $color-primary1;
   }
 }
 
@@ -94,12 +95,33 @@
   }
 
   .checkout {
-    background: #b30000;
+    background: $color-primary1;
     color: white;
     border: none;
     padding: 14px 28px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+  }
+}
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.orders-btn {
+  background: $color-primary1;
+  border: none;
+  padding: 14px 22px;
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.25);
   }
 }

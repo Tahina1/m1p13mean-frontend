@@ -1,31 +1,31 @@
 <div class="dashboard">
   <div class="dashboard__stats">
-    <div class="dashboard__card">
+    <div class="dashboard__card" routerLink="/admin/users">
       <div class="dashboard__icon dashboard__icon--red">
         <i class="icn-user"></i>
       </div>
       <div>
-        <p class="dashboard__number">1,250</p>
+        <p class="dashboard__number">{{ nbUsers() }}</p>
         <p class="dashboard__label">Utilisateurs</p>
       </div>
     </div>
 
-    <div class="dashboard__card">
+    <div class="dashboard__card" routerLink="/admin/shops">
       <div class="dashboard__icon dashboard__icon--dark">
-        <i class="icn-shop"></i>
+        <i class="icn-cart"></i>
       </div>
       <div>
-        <p class="dashboard__number">230</p>
+        <p class="dashboard__number">{{ nbShops() }}</p>
         <p class="dashboard__label">Boutiques</p>
       </div>
     </div>
 
     <div class="dashboard__card">
       <div class="dashboard__icon dashboard__icon--red">
-        <i class="icn-box"></i>
+        <i class="icn-price-tags"></i>
       </div>
       <div>
-        <p class="dashboard__number">4,350</p>
+        <p class="dashboard__number">{{ nbProducts() }}</p>
         <p class="dashboard__label">Produits</p>
       </div>
     </div>
@@ -33,7 +33,6 @@
   <div class="dashboard__tables">
     <div class="dashboard__table">
       <h3>Derniers utilisateurs</h3>
-
       <table>
         <thead>
           <tr>
@@ -44,22 +43,36 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td>Sarah Dupont</td>
-            <td>sarah@mail.com</td>
-            <td>Propriétaire</td>
-          </tr>
-          <tr>
-            <td>Thomas Martin</td>
-            <td>thomas@mail.com</td>
-            <td>Client</td>
-          </tr>
+          @for (user of users(); track user._id) {
+            <tr>
+              <td>{{ user.lastName }} {{ user.firstName }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span
+                  class="role"
+                  [class.role--admin]="user.roles.includes('ADMIN')"
+                  [class.role--shop]="!user.roles.includes('ADMIN') && user.roles.includes('SHOP')"
+                  [class.role--client]="
+                    !user.roles.includes('ADMIN') && !user.roles.includes('SHOP')
+                  "
+                >
+                  {{
+                    user.roles.includes('ADMIN')
+                      ? 'ADMIN'
+                      : user.roles.includes('SHOP')
+                        ? 'SHOP'
+                        : 'CLIENT'
+                  }}
+                </span>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
 
     <!-- SHOPS -->
-    <div class="dashboard__table">
+    <!-- <div class="dashboard__table">
       <h3>Dernières boutiques</h3>
 
       <table>
@@ -84,6 +97,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
 </div>

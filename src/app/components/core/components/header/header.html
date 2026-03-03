@@ -14,12 +14,12 @@
         <nav class="navbar">
           <a routerLink="/home" routerLinkActive="active">Accueil</a>
           <a routerLink="/shops" routerLinkActive="active">Boutiques</a>
-          <a href="#">Services</a>
+          <a routerLink="/cart" routerLinkActive="active">Panier</a>
           <a href="#">Contact</a>
         </nav>
         <div class="header-actions">
           <!-- CART -->
-          <div class="cart" (click)="goToCart()" [class.bump]="cartBounce()">
+          <div class="cart" routerLink="/cart" [class.bump]="cartBounce()">
             <i class="icn-cart"></i>
 
             @if (cartService.cartCount() > 0) {

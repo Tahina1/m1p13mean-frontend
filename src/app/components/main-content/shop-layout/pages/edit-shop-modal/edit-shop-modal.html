@@ -1,0 +1,46 @@
+<div class="product-modal" [class.product-modal--open]="isOpen()">
+  <div class="product-modal__overlay" (click)="close()"></div>
+
+  <div class="product-modal__panel">
+    <div class="product-modal__header">
+      <h2 class="product-modal__title">Modifier boutique</h2>
+      <button class="product-modal__close" (click)="close()">✕</button>
+    </div>
+
+    <form class="product-modal__form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="product-modal__group">
+        <label>Nom boutique</label>
+        <input type="text" formControlName="name" />
+      </div>
+
+      <div class="product-modal__group">
+        <label>Catégorie</label>
+        <input type="text" formControlName="category" />
+      </div>
+
+      <div class="product-modal__group">
+        <label>Étage</label>
+        <input type="text" formControlName="floor" />
+      </div>
+
+      <div class="product-modal__group">
+        <label>Numéro boutique</label>
+        <input type="text" formControlName="shopNumber" />
+      </div>
+
+      <div class="product-modal__group">
+        <label>Galerie</label>
+        <input type="file" multiple (change)="onFiles($event)" />
+        @if (existingImages().length > 0) {
+          <div class="gallery-preview">
+            @for (img of existingImages(); track img) {
+              <img [src]="img" />
+            }
+          </div>
+        }
+      </div>
+
+      <button class="product-modal__submit" type="submit">Mettre à jour</button>
+    </form>
+  </div>
+</div>

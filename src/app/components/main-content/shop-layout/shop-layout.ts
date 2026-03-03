@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { AuthService } from '@/components/shared/services/auth';
+import { ShopService } from '@/components/shared/services/shop-service';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,4 +9,22 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './shop-layout.html',
   styleUrl: './shop-layout.scss',
 })
-export class ShopLayout {}
+export class ShopLayout {
+  authService = inject(AuthService);
+  shopService = inject(ShopService);
+  shop = signal<any>(null);
+  shopId: string | null = '';
+
+  ngOnInit() {
+    this.shopId = this.authService.shopId();
+
+    if (!this.shopId) {
+      console.error('No shop linked');
+      return;
+    }
+
+    this.shopService.getShopById(this.shopId).subscribe((res) => {
+      this.shop.set(res);
+    });
+  }
+}
