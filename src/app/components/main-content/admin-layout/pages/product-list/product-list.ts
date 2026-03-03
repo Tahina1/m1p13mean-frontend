@@ -1,7 +1,7 @@
 import { Pagination } from '@/components/shared/components/pagination/pagination';
 import { Product, ProductCategory } from '@/components/shared/models/product';
 import { ProductService } from '@/components/shared/services/product-service';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { EditProductModal } from '../edit-product-modal/edit-product-modal';
 
 interface ProductApiResponse {
@@ -25,6 +25,40 @@ export class ProductList {
   page = signal(1);
   totalPages = signal(1);
   loading = signal(false);
+  searchTerm = signal('');
+  minPrice = signal<number | null>(null);
+  maxPrice = signal<number | null>(null);
+  availability = signal<'all' | 'active' | 'inactive'>('all');
+
+  filteredProducts = computed(() => {
+    const list = this.products();
+    const search = this.searchTerm().toLowerCase();
+    const min = this.minPrice();
+    const max = this.maxPrice();
+    const availability = this.availability();
+
+    return list.filter((p) => {
+      const matchesName = p.name.toLowerCase().includes(search);
+
+      const matchesMin = min !== null ? p.price >= min : true;
+      const matchesMax = max !== null ? p.price <= max : true;
+
+      const matchesAvailability =
+        availability === 'all' ? true : availability === 'active' ? p.isActive : !p.isActive;
+
+      return matchesName && matchesMin && matchesMax && matchesAvailability;
+    });
+  });
+
+  constructor() {
+    effect(() => {
+      this.searchTerm();
+      this.minPrice();
+      this.maxPrice();
+      this.availability();
+      this.page.set(1);
+    });
+  }
 
   ngOnInit() {
     this.loadProducts();
@@ -83,5 +117,12 @@ export class ProductList {
     this.editingProduct = normalized;
     this.isModalOpen = true;
     this.loadProducts();
+  }
+
+  resetFilters() {
+    this.searchTerm.set('');
+    this.minPrice.set(null);
+    this.maxPrice.set(null);
+    this.availability.set('all');
   }
 }

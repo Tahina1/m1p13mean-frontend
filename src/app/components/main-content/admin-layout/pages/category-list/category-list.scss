@@ -1,10 +1,9 @@
-.products {
+.categories {
   font-family: 'Poppins', sans-serif;
 
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 20px;
   }
 
@@ -18,25 +17,6 @@
     font-size: 13px;
   }
 
-  &__add-btn {
-    background: linear-gradient(135deg, #b30000, #7a0000);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    display: flex;
-    gap: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-
-    &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(179, 0, 0, 0.25);
-    }
-  }
-
   &__card {
     background: white;
     padding: 20px;
@@ -45,7 +25,6 @@
   }
 
   &__table {
-    text-align: left;
     width: 100%;
     border-collapse: collapse;
 
@@ -54,6 +33,7 @@
       font-size: 13px;
       color: #666;
       border-bottom: 1px solid #eee;
+      text-align: left;
     }
 
     td {
@@ -66,37 +46,14 @@
       background: #fafafa;
     }
   }
-
-  &__actions {
-    display: flex;
-    gap: 8px;
-  }
 }
 
-.status {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-
-  &--active {
-    background: #e8f8f0;
-    color: #1e8e5a;
-  }
-
-  &--inactive {
-    background: #fdeaea;
-    color: #c0392b;
-  }
-}
 .filters {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
-  flex-wrap: wrap;
 
-  input,
-  select {
+  input {
     padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -113,5 +70,21 @@
     &:hover {
       background: #ddd;
     }
+  }
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+
+  &.active {
+    background: #e8f8f0;
+    color: #1e8e5a;
+  }
+
+  &.inactive {
+    background: #fdeaea;
+    color: #c0392b;
   }
 }

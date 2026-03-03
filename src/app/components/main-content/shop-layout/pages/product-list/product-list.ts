@@ -1,7 +1,7 @@
 import { Product } from '@/components/shared/models/product';
 import { AuthService } from '@/components/shared/services/auth';
 import { ProductService } from '@/components/shared/services/product-service';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductModal } from '../product-modal/product-modal';
 import { Pagination } from '@/components/shared/components/pagination/pagination';
@@ -29,6 +29,44 @@ export class ProductList {
 
   isModalOpen = false;
   editingProduct: Product | null = null;
+
+  searchTerm = signal('');
+  minPrice = signal<number | null>(null);
+  maxPrice = signal<number | null>(null);
+  availability = signal<'all' | 'active' | 'inactive'>('all');
+
+  filteredProducts = computed(() => {
+    const products = this.products();
+    const search = this.searchTerm().toLowerCase();
+    const min = this.minPrice();
+    const max = this.maxPrice();
+    const availability = this.availability();
+
+    return products.filter((p) => {
+      // 🔎 Search by name
+      const matchesName = p.name.toLowerCase().includes(search);
+
+      // 💰 Price range
+      const matchesMin = min !== null ? p.price >= min : true;
+      const matchesMax = max !== null ? p.price <= max : true;
+
+      // 📦 Availability
+      const matchesAvailability =
+        availability === 'all' ? true : availability === 'active' ? p.isActive : !p.isActive;
+
+      return matchesName && matchesMin && matchesMax && matchesAvailability;
+    });
+  });
+
+  constructor() {
+    effect(() => {
+      this.searchTerm();
+      this.minPrice();
+      this.maxPrice();
+      this.availability();
+      this.page.set(1);
+    });
+  }
 
   openCreate() {
     this.editingProduct = null;
@@ -106,5 +144,12 @@ export class ProductList {
   onPageChange(p: number) {
     this.page.set(p);
     this.reloadProducts();
+  }
+
+  resetFilters() {
+    this.searchTerm.set('');
+    this.minPrice.set(null);
+    this.maxPrice.set(null);
+    this.availability.set('all');
   }
 }
