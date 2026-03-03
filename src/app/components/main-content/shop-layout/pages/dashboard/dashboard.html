@@ -26,16 +26,16 @@
       </div>
     </div>
 
-    <div class="dashboard__card">
+    <!-- <div class="dashboard__card">
       <div class="dashboard__card-icon">⭐</div>
       <div>
         <p class="dashboard__card-number">4.8</p>
         <p class="dashboard__card-label">Note moyenne</p>
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="dashboard__content">
-    <div class="dashboard__feedback">
+    <!-- <div class="dashboard__feedback">
       <h3 class="dashboard__section-title">Avis des clients</h3>
 
       <div class="dashboard__review">
@@ -53,15 +53,17 @@
           <p class="dashboard__review-text">Produits de très bonne qualité 🔥</p>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="dashboard__actions">
       <h3 class="dashboard__section-title">Gestion rapide</h3>
 
       <button class="dashboard__action-btn" routerLink="/shop-dashboard/products">
         Gérer les produits
       </button>
-      <button class="dashboard__action-btn">Modifier boutique</button>
-      <button class="dashboard__action-btn">Voir les avis</button>
+      <button class="dashboard__action-btn" (click)="openModal()">Modifier boutique</button>
+      <button class="dashboard__action-btn" routerLink="/shop-dashboard/orders">
+        Voir les commandes
+      </button>
     </div>
   </div>
 </div>
