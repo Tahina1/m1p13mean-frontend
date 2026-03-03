@@ -13,8 +13,8 @@ export class CategoryService {
     return this.http.post('api/product-categories', data);
   }
 
-  getProductCategories(page = 1, limit = 5): Observable<ProductCategory[]> {
-    return this.http.get(`api/product-categories`);
+  getProductCategories(): Observable<ProductCategory[]> {
+    return this.http.get('api/product-categories');
   }
 
   getCategoryById(id: string): Observable<ProductCategory> {

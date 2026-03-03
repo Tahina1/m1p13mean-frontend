@@ -1,0 +1,50 @@
+<div class="categories">
+  <div class="categories__header">
+    <div>
+      <h2 class="categories__title">Catégories Produits</h2>
+      <p class="categories__subtitle">Gérer toutes les catégories</p>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input
+      type="text"
+      placeholder="Rechercher par nom..."
+      (input)="searchTerm.set($any($event.target).value)"
+    />
+
+    <button class="reset-btn" (click)="resetSearch()">Réinitialiser</button>
+  </div>
+
+  <div class="categories__card">
+    <table class="categories__table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Status</th>
+          <th>Date création</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (category of filteredCategories(); track category._id) {
+          <tr>
+            <td>{{ category.name }}</td>
+
+            <td>
+              <span
+                class="status"
+                [class.active]="category.isActive"
+                [class.inactive]="!category.isActive"
+              >
+                {{ category.isActive ? 'Actif' : 'Inactif' }}
+              </span>
+            </td>
+
+            <td>{{ category.createdAt | date: 'short' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
