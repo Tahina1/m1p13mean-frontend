@@ -1,7 +1,7 @@
 import { Product } from '@/components/shared/models/product';
 import { AuthService } from '@/components/shared/services/auth';
 import { ProductService } from '@/components/shared/services/product-service';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductModal } from '../product-modal/product-modal';
 import { Pagination } from '@/components/shared/components/pagination/pagination';
@@ -57,6 +57,16 @@ export class ProductList {
       return matchesName && matchesMin && matchesMax && matchesAvailability;
     });
   });
+
+  constructor() {
+    effect(() => {
+      this.searchTerm();
+      this.minPrice();
+      this.maxPrice();
+      this.availability();
+      this.page.set(1);
+    });
+  }
 
   openCreate() {
     this.editingProduct = null;

@@ -11,6 +11,34 @@
     </button>
   </div>
 
+  <div class="filters">
+    <input
+      type="text"
+      placeholder="Rechercher par nom..."
+      (input)="searchTerm.set($any($event.target).value)"
+    />
+
+    <input
+      type="number"
+      placeholder="Prix min"
+      (input)="minPrice.set($any($event.target).value ? +$any($event.target).value : null)"
+    />
+
+    <input
+      type="number"
+      placeholder="Prix max"
+      (input)="maxPrice.set($any($event.target).value ? +$any($event.target).value : null)"
+    />
+
+    <select (change)="availability.set($any($event.target).value)">
+      <option value="all">Tous</option>
+      <option value="active">Actifs</option>
+      <option value="inactive">Inactifs</option>
+    </select>
+
+    <button class="reset-btn" (click)="resetFilters()">Réinitialiser</button>
+  </div>
+
   <div class="products__card">
     <table class="products__table">
       <thead>
@@ -23,7 +51,7 @@
       </thead>
 
       <tbody>
-        @for (product of products(); track product._id) {
+        @for (product of filteredProducts(); track product._id) {
           <tr>
             <td>{{ product.name }}</td>
             <td>{{ product.price }} Ar</td>

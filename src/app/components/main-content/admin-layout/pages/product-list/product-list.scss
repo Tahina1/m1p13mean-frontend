@@ -89,3 +89,29 @@
     color: #c0392b;
   }
 }
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+
+  input,
+  select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+  }
+
+  .reset-btn {
+    background: #eee;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: #ddd;
+    }
+  }
+}
