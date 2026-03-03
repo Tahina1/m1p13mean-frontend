@@ -3,11 +3,11 @@ import { AuthService } from '@/components/shared/services/auth';
 import { CartService } from '@/components/shared/services/cart-service';
 import { ProductService } from '@/components/shared/services/product-service';
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
