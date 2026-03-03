@@ -9,6 +9,19 @@
             </div>
           </a>
         </div>
+        @if (availableRoles().length > 1) {
+          <div class="role-switch">
+            @for (role of availableRoles(); track role) {
+              <button
+                class="role-switch__item"
+                [class.role-switch__item--active]="authService.activeRole() === role"
+                (click)="switchRole(role)"
+              >
+                {{ role }}
+              </button>
+            }
+          </div>
+        }
       </div>
       <div class="content__right">
         <nav class="navbar">

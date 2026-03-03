@@ -81,6 +81,8 @@ export class CreateShopModal {
   }
 
   submit() {
+    console.log('submitting');
+
     if (this.form.invalid) return;
 
     const v = this.form.value;
@@ -104,7 +106,10 @@ export class CreateShopModal {
     }
 
     // EDIT
+    console.log(this.editingShopId);
+
     this.shopService.updateShop(this.editingShopId, formData).subscribe(() => {
+      console.log('submitted');
       // status update (only if changed)
       this.shopService.updateShopStatus(this.editingShopId, v.status || 'PENDING').subscribe(() => {
         this.created.emit();
