@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Shop } from '@/components/shared/models/shop';
+import { ShopService } from '@/components/shared/services/shop-service';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -8,6 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.scss',
 })
 export class Home {
+  shopService = inject(ShopService);
+  shops = signal<Shop[]>([]);
   cards = [
     {
       title: 'Women',
@@ -35,36 +39,18 @@ export class Home {
     },
   ];
 
-  stores = [
-    {
-      name: 'zara',
-      logo: 'assets/images/zara.png',
-      sales: 30,
-    },
-    {
-      name: 'nike',
-      logo: 'assets/images/nike.png',
-      sales: 0,
-    },
-    {
-      name: 'h&m',
-      logo: 'assets/images/h&m.png',
-      sales: 50,
-    },
-    {
-      name: 'adidas',
-      logo: 'assets/images/adidas.png',
-      sales: 0,
-    },
-    {
-      name: 'pull&bear',
-      logo: 'assets/images/pull&bear.png',
-      sales: 0,
-    },
-    {
-      name: 'bershka',
-      logo: 'assets/images/bershka.png',
-      sales: 0,
-    },
-  ];
+  ngOnInit() {
+    this.loadShops();
+  }
+
+  loadShops() {
+    this.shopService.getShops().subscribe({
+      next: (res) => {
+        this.shops.set(res.shops);
+      },
+      error: (err) => {
+        console.error('Error loading shops', err);
+      },
+    });
+  }
 }

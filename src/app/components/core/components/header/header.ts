@@ -16,14 +16,6 @@ export class Header implements OnInit {
   cartService = inject(CartService);
   cartBounce = signal(false);
 
-  goToCart() {
-    if (!this.authService.isLoggedIn()) {
-      this.authService.setAuthPopup(true);
-      return;
-    } else {
-      this.router.navigate(['/cart']);
-    }
-  }
   ngOnInit() {
     const stored = localStorage.getItem('user');
     if (stored) {

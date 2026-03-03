@@ -1,3 +1,18 @@
 <div class="shop-layout">
-  <router-outlet></router-outlet>
+  <div class="header-top">
+    <div class="left">
+      <div class="logo">
+        <picture><img src="assets/images/mean-logo.svg" alt="MEAN Mall" /></picture>
+      </div>
+
+      <div class="shop-name">{{ shop().name }} Boutique</div>
+    </div>
+    <button class="logoutBtn" (click)="authService.logout()" title="logout">
+      <i class="icn-switch"></i>
+      Logout
+    </button>
+  </div>
+  <div class="shop-content">
+    <router-outlet></router-outlet>
+  </div>
 </div>

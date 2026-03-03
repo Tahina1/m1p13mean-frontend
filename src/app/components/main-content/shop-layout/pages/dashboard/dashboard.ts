@@ -5,10 +5,11 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductModal } from '../product-modal/product-modal';
 import { OrderService } from '@/components/shared/services/order-service';
+import { EditShopModal } from '../edit-shop-modal/edit-shop-modal';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, ProductModal],
+  imports: [RouterLink, ProductModal, EditShopModal],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

@@ -3,13 +3,10 @@
     <div class="dashboard__welcome">
       <h2 class="dashboard__title">Bienvenue, {{ authService.userSignal()?.firstName }} 👋</h2>
       <p class="dashboard__subtitle">Voici votre boutique aujourd'hui</p>
-      <button class="logoutBtn" (click)="authService.logout()" title="logout">
-        <i class="icn-switch"></i>
-      </button>
     </div>
-
     <button class="dashboard__add-btn" (click)="openModal()">+ Ajouter un produit</button>
   </div>
+
   <div class="dashboard__stats">
     <div class="dashboard__card dashboard__card--products" routerLink="/shop-dashboard/products">
       <div class="dashboard__card-icon">👜</div>
@@ -70,3 +67,4 @@
 </div>
 
 <app-product-modal [isOpen]="isModalOpen" (closeModal)="isModalOpen = false"></app-product-modal>
+<app-edit-shop-modal #shopModal></app-edit-shop-modal>
