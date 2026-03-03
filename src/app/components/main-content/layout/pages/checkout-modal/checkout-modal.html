@@ -2,17 +2,36 @@
   <div class="overlay" (click)="close()"></div>
 
   <div class="panel">
-    <h2>Finaliser commande</h2>
+    <div class="panel__header">
+      <h2>Finaliser commande</h2>
+      <p>Veuillez renseigner vos informations</p>
+    </div>
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <input placeholder="Nom complet" formControlName="name" />
-      <input placeholder="Email" formControlName="email" />
-      <input placeholder="Téléphone" formControlName="phone" />
-      <textarea placeholder="Adresse livraison" formControlName="address"></textarea>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="checkout-form">
+      <div class="form-group">
+        <label>Nom complet</label>
+        <input type="text" formControlName="name" />
+      </div>
 
-      <button type="submit" [disabled]="loading()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" />
+      </div>
+
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="text" formControlName="phone" />
+      </div>
+
+      <div class="form-group">
+        <label>Adresse de livraison</label>
+        <textarea rows="3" formControlName="address"></textarea>
+      </div>
+
+      <button type="submit" [disabled]="loading()" class="checkout-btn">
         {{ loading() ? 'Validation...' : 'Confirmer commande' }}
       </button>
     </form>
   </div>
 </div>
+<app-notification-component></app-notification-component>

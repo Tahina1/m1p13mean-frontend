@@ -2,14 +2,17 @@ import { User } from '@/components/shared/models/user';
 import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NotificationComponent } from '@/components/shared/components/notification-component/notification-component';
+import { NotificationService } from '@/components/shared/services/notification-service';
 
 @Component({
   selector: 'app-edit-shop-modal',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NotificationComponent],
   templateUrl: './edit-shop-modal.html',
   styleUrl: './edit-shop-modal.scss',
 })
 export class EditShopModal {
+  private notificationService = inject(NotificationService);
   private fb = inject(FormBuilder);
   private shopService = inject(ShopService);
   existingImages = signal<string[]>([]);
@@ -51,26 +54,35 @@ export class EditShopModal {
   }
 
   submit() {
-    console.log('ok');
-
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.notificationService.show('Please fill all required fields correctly', 'error');
+      return;
+    }
 
     const v = this.form.value;
 
     const formData = new FormData();
-    formData.append('name', v.name || '');
-    formData.append('category', v.category || '');
-    formData.append('location[floor]', v.floor || '');
-    formData.append('location[shopNumber]', v.shopNumber || '');
+    formData.append('name', v.name ?? '');
+    formData.append('category', v.category ?? '');
+    formData.append('location[floor]', v.floor ?? '');
+    formData.append('location[shopNumber]', v.shopNumber ?? '');
 
     this.files.forEach((f) => formData.append('gallery', f));
 
-    // EDIT
-    console.log(this.editingShopId);
+    this.shopService.updateShop(this.editingShopId, formData).subscribe({
+      next: () => {
+        this.created.emit();
+        this.close();
+        this.notificationService.show('Shop updated successfully', 'success');
+      },
+      error: (err) => {
+        console.error('UPDATE ERROR', err);
 
-    this.shopService.updateShop(this.editingShopId, formData).subscribe(() => {
-      this.created.emit();
-      this.close();
+        const message = err?.error?.message || err?.error?.error || 'Failed to update shop';
+
+        this.notificationService.show(message, 'error');
+      },
     });
   }
 }
