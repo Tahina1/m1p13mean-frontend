@@ -16,6 +16,39 @@
     <div class="empty">Aucun produit pour votre boutique.</div>
   }
 
+  <div class="filters">
+    <div class="filters__group">
+      <input
+        type="text"
+        placeholder="Rechercher par nom..."
+        (input)="searchTerm.set($any($event.target).value)"
+      />
+    </div>
+
+    <div class="filters__group">
+      <input
+        type="number"
+        placeholder="Prix min"
+        (input)="minPrice.set($any($event.target).value ? +$any($event.target).value : null)"
+      />
+
+      <input
+        type="number"
+        placeholder="Prix max"
+        (input)="maxPrice.set($any($event.target).value ? +$any($event.target).value : null)"
+      />
+    </div>
+
+    <div class="filters__group">
+      <select (change)="availability.set($any($event.target).value)">
+        <option value="all">Tous</option>
+        <option value="active">Actifs</option>
+        <option value="inactive">Inactifs</option>
+      </select>
+    </div>
+
+    <button class="reset-btn" (click)="resetFilters()">Réinitialiser</button>
+  </div>
   @if (!loading() && products().length > 0) {
     <table class="products-table">
       <thead>
@@ -23,14 +56,13 @@
           <th>Image</th>
           <th>Nom</th>
           <th>Prix</th>
-          <th>Quantité</th>
           <th>Statut</th>
           <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
-        @for (product of products(); track product._id) {
+        @for (product of filteredProducts(); track product._id) {
           <tr>
             <td>
               <img [src]="product?.images?.[0]" alt="product" class="product-img" />
@@ -38,7 +70,6 @@
 
             <td>{{ product.name }}</td>
             <td>{{ product.price }} Ar</td>
-            <td>{{ product.stock }}</td>
 
             <td>
               <span
