@@ -72,7 +72,7 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"embeds": [{"title": "🚀 Déploiement Réussi !", "color": 5763719, "fields": [{"name": "Branche", "value": "${{ github.ref_name }}", "inline": true}, {"name": "Auteur", "value": "${{ github.actor }}", "inline": true}, {"name": "🔗 Lien de cette version", "value": "${{ steps.netlify_deploy.outputs.url }}"}, {"name": "🌍 Site Live", "value": "https://dev-m1p13mean-miangaly-tahina.netlify.app"}]}]}' \
+          -d '{"embeds": [{"title": "🚀 Déploiement Réussi !", "color": 5763719, "fields": [{"name": "Branche", "value": "${{ github.ref_name }}", "inline": true}, {"name": "Auteur", "value": "${{ github.actor }}", "inline": true}, {"name": "🔗 Lien de cette version", "value": "${{ steps.netlify_deploy.outputs.url }}"}, {"name": "🌍 Site Live", "value": "https://m1p13mean-miangaly-tahina.netlify.app"}]}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       # 7. Envoie une notification sur Discord en cas d'ÉCHEC
