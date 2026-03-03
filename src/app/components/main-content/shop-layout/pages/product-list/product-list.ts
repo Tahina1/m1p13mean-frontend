@@ -17,7 +17,6 @@ export class ProductList {
   private productService = inject(ProductService);
   private authService = inject(AuthService);
   selectedProduct = signal<Product | null>(null);
-  showEditModal = signal(false);
   deletePopup = signal(false);
   productToDelete: string | null = null;
   productName = signal('');

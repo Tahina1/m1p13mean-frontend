@@ -1,0 +1,88 @@
+<div class="product-modal" [class.product-modal--open]="isOpen">
+  <div class="product-modal__overlay" (click)="close()"></div>
+
+  <div class="product-modal__panel">
+    <div class="product-modal__header">
+      <h2 class="product-modal__title">
+        {{ editProduct ? 'Modifier produit' : 'Ajouter un produit' }}
+      </h2>
+
+      <button class="product-modal__close" (click)="close()">✕</button>
+    </div>
+
+    <form class="product-modal__form" [formGroup]="form" (ngSubmit)="submit()">
+      <!-- NAME -->
+      <div class="product-modal__group">
+        <label>Nom du produit</label>
+        <input type="text" formControlName="name" />
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="product-modal__group">
+        <label>Description</label>
+        <textarea formControlName="description"></textarea>
+      </div>
+
+      <!-- PRICE -->
+      <div class="product-modal__group">
+        <label>Prix</label>
+        <input type="number" formControlName="price" />
+      </div>
+
+      <!-- STOCK -->
+      <div class="product-modal__group">
+        <label>Stock</label>
+        <input type="number" formControlName="stock" />
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="product-modal__group">
+        <label>Catégorie</label>
+        <select formControlName="categoryId">
+          <option value="">Choisir catégorie</option>
+
+          @for (cat of categories(); track cat._id) {
+            <option [value]="cat._id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- SHOP -->
+      <div class="product-modal__group">
+        <label>Boutique</label>
+        <select formControlName="shopId">
+          <option value="">Choisir boutique</option>
+
+          @for (shop of shops(); track shop._id) {
+            <option [value]="shop._id">
+              {{ shop.name }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- IMAGES -->
+      <div class="product-modal__group">
+        <label>Images</label>
+        <input type="file" multiple (change)="onFiles($event)" />
+        @if (editProduct?.images?.length) {
+          <div class="existing-images">
+            @for (img of editProduct?.images; track img) {
+              <img [src]="img" class="preview-img" />
+            }
+          </div>
+        }
+      </div>
+
+      <!-- ACTIVE -->
+      <div class="product-modal__switch">
+        <input type="checkbox" formControlName="isActive" />
+        <span>Produit actif</span>
+      </div>
+
+      <button class="product-modal__submit" type="submit">
+        {{ editProduct ? 'Sauvegarder' : 'Ajouter produit' }}
+      </button>
+    </form>
+  </div>
+</div>

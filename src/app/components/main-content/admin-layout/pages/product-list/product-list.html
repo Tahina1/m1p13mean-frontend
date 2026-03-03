@@ -1,0 +1,68 @@
+<div class="products">
+  <div class="products__header">
+    <div>
+      <h2 class="products__title">Produits</h2>
+      <p class="products__subtitle">Gérer tous les produits</p>
+    </div>
+
+    <button class="products__add-btn" (click)="openCreate()">
+      <i class="icn-plus"></i>
+      Ajouter produit
+    </button>
+  </div>
+
+  <div class="products__card">
+    <table class="products__table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prix</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (product of products(); track product._id) {
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+
+            <td>
+              <span
+                class="status"
+                [class]="product.isActive ? 'status--active' : 'status--inactive'"
+              >
+                {{ product.isActive ? 'active' : 'inactive' }}
+              </span>
+            </td>
+
+            <td class="products__actions">
+              <button class="icon-btn view">
+                <i class="icn-eye"></i>
+              </button>
+
+              <button class="icon-btn edit" (click)="openEdit(product)">
+                <i class="icn-pencil"></i>
+              </button>
+
+              <!-- <button class="icon-btn delete" (click)="deleteProduct(product._id)">
+                <i class="icn-bin"></i>
+              </button> -->
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <app-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="onPageChange($event)">
+  </app-pagination>
+</div>
+
+<app-edit-product-modal
+  [isOpen]="isModalOpen"
+  [editProduct]="editingProduct"
+  (closeModal)="isModalOpen = false"
+  (created)="loadProducts()"
+></app-edit-product-modal>
