@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpRequestService } from './http-request';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
@@ -13,6 +13,18 @@ interface ProductApiResponse {
   providedIn: 'root',
 })
 export class ProductService {
+  isOpen = signal(false);
+  selectedProduct = signal<Product | null>(null);
+
+  open(product: Product) {
+    this.selectedProduct.set(product);
+    this.isOpen.set(true);
+  }
+
+  close() {
+    this.isOpen.set(false);
+    this.selectedProduct.set(null);
+  }
   private http = inject(HttpRequestService);
 
   createProduct(data: FormData): Observable<Product> {

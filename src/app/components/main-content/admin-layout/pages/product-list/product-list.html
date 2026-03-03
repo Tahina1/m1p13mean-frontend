@@ -16,9 +16,7 @@
       <thead>
         <tr>
           <th>Nom</th>
-          <th>Catégorie</th>
           <th>Prix</th>
-          <th>Stock</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -28,12 +26,7 @@
         @for (product of products(); track product._id) {
           <tr>
             <td>{{ product.name }}</td>
-
-            <td>
-              {{ getCategoryNames(product.categories) }}
-            </td>
             <td>{{ product.price }}</td>
-            <td>{{ product.stock }}</td>
 
             <td>
               <span
@@ -49,9 +42,9 @@
                 <i class="icn-eye"></i>
               </button>
 
-              <!-- <button class="icon-btn edit" (click)="editProduct(product)">
+              <button class="icon-btn edit" (click)="editProduct(product)">
                 <i class="icn-pencil"></i>
-              </button> -->
+              </button>
 
               <!-- <button class="icon-btn delete" (click)="deleteProduct(product._id)">
                 <i class="icn-bin"></i>
@@ -66,3 +59,5 @@
   <app-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="onPageChange($event)">
   </app-pagination>
 </div>
+
+<app-product-modal></app-product-modal>

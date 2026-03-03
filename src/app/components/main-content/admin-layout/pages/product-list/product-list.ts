@@ -1,9 +1,9 @@
 import { Pagination } from '@/components/shared/components/pagination/pagination';
 import { Product, ProductCategory } from '@/components/shared/models/product';
-import { CategoryService } from '@/components/shared/services/category-service';
 import { ProductService } from '@/components/shared/services/product-service';
-import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, inject, signal } from '@angular/core';
+import { EditShopModal } from '@/components/main-content/shop-layout/pages/edit-shop-modal/edit-shop-modal';
+import { ProductModal } from '@/components/main-content/shop-layout/pages/product-modal/product-modal';
 
 interface ProductApiResponse {
   products: Product[];
@@ -12,33 +12,22 @@ interface ProductApiResponse {
 
 @Component({
   selector: 'app-product-list',
-  imports: [Pagination],
+  imports: [Pagination, ProductModal],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
 export class ProductList {
   private productService = inject(ProductService);
-  private categoryService = inject(CategoryService);
 
   products = signal<Product[]>([]);
-  categories = signal<ProductCategory[]>([]);
+  isModalOpen = false;
 
   page = signal(1);
   totalPages = signal(1);
   loading = signal(false);
 
   ngOnInit() {
-    this.loadCategories();
     this.loadProducts();
-  }
-
-  loadCategories() {
-    this.categoryService.getProductCategories().subscribe({
-      next: (cats) => {
-        this.categories.set(cats);
-      },
-      error: (err) => console.error('Error loading categories', err),
-    });
   }
 
   loadProducts() {
@@ -61,14 +50,7 @@ export class ProductList {
     this.loadProducts();
   }
 
-  getCategoryNames(categoryIds: string[]): string {
-    const allCategories = this.categories();
-
-    if (!categoryIds?.length) return '-';
-
-    return categoryIds
-      .map((id) => allCategories.find((c) => c._id === id)?.name)
-      .filter(Boolean)
-      .join(', ');
+  editProduct(product: Product) {
+    this.productService.open(product);
   }
 }
