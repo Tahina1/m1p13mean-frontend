@@ -2,6 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { HttpRequestService } from './http-request';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
+import { Pagination } from '../models/pagination';
+
+interface ProductApiResponse {
+  products: Product[];
+  pagination: Pagination;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +23,8 @@ export class ProductService {
     return this.http.get(`api/products/shop/${shopId}`);
   }
 
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get(`api/products`);
+  getAllProducts(page: number = 1, limit: number = 5) {
+    return this.http.get<ProductApiResponse>(`api/products?page=${page}&limit=${limit}`);
   }
 
   deleteProduct(id: string) {
