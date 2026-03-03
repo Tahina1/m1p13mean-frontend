@@ -5,10 +5,10 @@
       <p class="products__subtitle">Gérer tous les produits</p>
     </div>
 
-    <!-- <button class="products__add-btn" (click)="openCreateProduct()">
+    <button class="products__add-btn" (click)="openCreate()">
       <i class="icn-plus"></i>
       Ajouter produit
-    </button> -->
+    </button>
   </div>
 
   <div class="products__card">
@@ -42,7 +42,7 @@
                 <i class="icn-eye"></i>
               </button>
 
-              <button class="icon-btn edit" (click)="editProduct(product)">
+              <button class="icon-btn edit" (click)="openEdit(product)">
                 <i class="icn-pencil"></i>
               </button>
 
@@ -60,4 +60,9 @@
   </app-pagination>
 </div>
 
-<app-product-modal></app-product-modal>
+<app-edit-product-modal
+  [isOpen]="isModalOpen"
+  [editProduct]="editingProduct"
+  (closeModal)="isModalOpen = false"
+  (created)="loadProducts()"
+></app-edit-product-modal>

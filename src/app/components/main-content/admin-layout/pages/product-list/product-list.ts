@@ -2,8 +2,7 @@ import { Pagination } from '@/components/shared/components/pagination/pagination
 import { Product, ProductCategory } from '@/components/shared/models/product';
 import { ProductService } from '@/components/shared/services/product-service';
 import { Component, inject, signal } from '@angular/core';
-import { EditShopModal } from '@/components/main-content/shop-layout/pages/edit-shop-modal/edit-shop-modal';
-import { ProductModal } from '@/components/main-content/shop-layout/pages/product-modal/product-modal';
+import { EditProductModal } from '../edit-product-modal/edit-product-modal';
 
 interface ProductApiResponse {
   products: Product[];
@@ -12,7 +11,7 @@ interface ProductApiResponse {
 
 @Component({
   selector: 'app-product-list',
-  imports: [Pagination, ProductModal],
+  imports: [Pagination, EditProductModal],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
 })
@@ -21,6 +20,7 @@ export class ProductList {
 
   products = signal<Product[]>([]);
   isModalOpen = false;
+  editingProduct: Product | null = null;
 
   page = signal(1);
   totalPages = signal(1);
@@ -52,5 +52,36 @@ export class ProductList {
 
   editProduct(product: Product) {
     this.productService.open(product);
+  }
+
+  openCreate() {
+    this.editingProduct = null;
+    this.isModalOpen = true;
+  }
+
+  openEdit(product: any) {
+    const normalized: Product = {
+      _id: product._id,
+      name: product.name,
+      description: product.description || '',
+      price: product.price,
+      images: product.images || [],
+      shopId: product.shopId || '',
+      isActive: product.isActive,
+      stock: product.stock,
+
+      // 🔥 convert categories → categoryIds
+      categoryIds: (product.categories || []).map((id: string) => ({
+        _id: id,
+        name: '',
+        isActive: true,
+        createdAt: '',
+        updatedAt: '',
+      })),
+    };
+
+    this.editingProduct = normalized;
+    this.isModalOpen = true;
+    this.loadProducts();
   }
 }
