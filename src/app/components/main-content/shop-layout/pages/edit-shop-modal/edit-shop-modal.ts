@@ -27,8 +27,6 @@ export class EditShopModal {
     category: ['', Validators.required],
     floor: ['', Validators.required],
     shopNumber: ['', Validators.required],
-    ownerId: ['', Validators.required],
-    status: ['PENDING'],
   });
 
   open(shop?: any) {
@@ -53,6 +51,8 @@ export class EditShopModal {
   }
 
   submit() {
+    console.log('ok');
+
     if (this.form.invalid) return;
 
     const v = this.form.value;
@@ -62,11 +62,12 @@ export class EditShopModal {
     formData.append('category', v.category || '');
     formData.append('location[floor]', v.floor || '');
     formData.append('location[shopNumber]', v.shopNumber || '');
-    formData.append('ownerId', v.ownerId || '');
 
     this.files.forEach((f) => formData.append('gallery', f));
 
     // EDIT
+    console.log(this.editingShopId);
+
     this.shopService.updateShop(this.editingShopId, formData).subscribe(() => {
       this.created.emit();
       this.close();

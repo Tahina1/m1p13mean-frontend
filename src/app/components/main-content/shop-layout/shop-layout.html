@@ -4,7 +4,7 @@
       <div class="logo">
         <picture><img src="assets/images/mean-logo.svg" alt="MEAN Mall" /></picture>
       </div>
-      <div class="shop-name">{{ shop().name }} Boutique</div>
+      <div class="shop-name">{{ shop()?.name }} Boutique</div>
     </div>
     @if (authService.userSignal()?.roles?.length > 1) {
       <div class="role-switch">

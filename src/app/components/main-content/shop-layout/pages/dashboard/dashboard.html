@@ -60,7 +60,7 @@
       <button class="dashboard__action-btn" routerLink="/shop-dashboard/products">
         Gérer les produits
       </button>
-      <button class="dashboard__action-btn" (click)="openModal()">Modifier boutique</button>
+      <button class="dashboard__action-btn" (click)="openShopModal()">Modifier boutique</button>
       <button class="dashboard__action-btn" routerLink="/shop-dashboard/orders">
         Voir les commandes
       </button>
@@ -69,4 +69,4 @@
 </div>
 
 <app-product-modal [isOpen]="isModalOpen" (closeModal)="isModalOpen = false"></app-product-modal>
-<app-edit-shop-modal #shopModal></app-edit-shop-modal>
+<app-edit-shop-modal></app-edit-shop-modal>
