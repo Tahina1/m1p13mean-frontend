@@ -1,19 +1,23 @@
+import { AuthService } from '@/components/shared/services/auth';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
+  const authService = inject(AuthService);
 
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const user = authService.userSignal();
+  const activeRole = authService.activeRole();
 
   if (!user) {
     router.navigate(['/']);
     return false;
   }
 
-  const role = user.roles?.[0];
+  const hasRole = user.roles?.includes('ADMIN');
+  const isActive = activeRole === 'ADMIN';
 
-  if (role !== 'ADMIN') {
+  if (!hasRole || !isActive) {
     router.navigate(['/']);
     return false;
   }

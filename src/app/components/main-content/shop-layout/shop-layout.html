@@ -4,7 +4,6 @@
       <div class="logo">
         <picture><img src="assets/images/mean-logo.svg" alt="MEAN Mall" /></picture>
       </div>
-
       <div class="shop-name">{{ shop().name }} Boutique</div>
     </div>
     <button class="logoutBtn" (click)="authService.logout()" title="logout">
@@ -12,6 +11,19 @@
       Logout
     </button>
   </div>
+  @if (authService.userSignal()?.roles?.length > 1) {
+    <div class="role-switch">
+      @for (role of authService.userSignal()?.roles; track $index) {
+        <button
+          class="role-switch__item"
+          [class.role-switch__item--active]="authService.activeRole() === role"
+          (click)="switchRole(role)"
+        >
+          {{ role }}
+        </button>
+      }
+    </div>
+  }
   <div class="shop-content">
     <router-outlet></router-outlet>
   </div>

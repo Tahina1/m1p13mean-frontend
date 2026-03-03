@@ -1,7 +1,7 @@
 import { AuthService } from '@/components/shared/services/auth';
 import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-shop-layout',
@@ -12,6 +12,7 @@ import { RouterOutlet } from '@angular/router';
 export class ShopLayout {
   authService = inject(AuthService);
   shopService = inject(ShopService);
+  private router = inject(Router);
   shop = signal<any>(null);
   shopId: string | null = '';
 
@@ -26,5 +27,19 @@ export class ShopLayout {
     this.shopService.getShopById(this.shopId).subscribe((res) => {
       this.shop.set(res);
     });
+  }
+
+  switchRole(role: string) {
+    if (this.authService.activeRole() === role) return;
+
+    this.authService.setActiveRole(role);
+
+    if (role === 'ADMIN') {
+      this.router.navigate(['/admin']);
+    } else if (role === 'SHOP') {
+      this.router.navigate(['/shop-dashboard']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 }

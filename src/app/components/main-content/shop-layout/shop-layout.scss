@@ -41,3 +41,40 @@
   font-weight: 600;
   color: white;
 }
+
+$role-bg: #f3f4f6;
+$role-active-bg: #111827;
+$role-active-color: #ffffff;
+$role-text-color: #374151;
+$role-radius: 999px;
+
+.role-switch {
+  display: inline-flex;
+  align-items: center;
+  background: $role-bg;
+  border-radius: $role-radius;
+  padding: 4px;
+  gap: 4px;
+
+  &__item {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: $role-radius;
+    font-size: 13px;
+    font-weight: 600;
+    color: $role-text-color;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    &--active {
+      background: $role-active-bg;
+      color: $role-active-color;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
