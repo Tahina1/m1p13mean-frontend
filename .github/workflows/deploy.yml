@@ -7,8 +7,8 @@ name: Deploy Angular to Netlify
 on:
   # Déclenche le workflow lors d'un push sur les branches "develop" ou "main"
   push:
-    branches: [ "develop", "main" ]
-  
+    branches: ['develop', 'main']
+
   # Permet de lancer ce workflow manuellement depuis l'onglet Actions de GitHub
   workflow_dispatch:
 
@@ -58,7 +58,7 @@ jobs:
             # Déploiement TEST (branche develop) - --prod utilisé pour mettre à jour l'URL principale du site dev
             JSON_RESPONSE=$(npx netlify deploy --prod --dir=dist/m1p13mean-frontend/browser --site=${{ secrets.NETLIFY_SITE_ID_DEV }} --json)
           fi
-          
+
           # Extraction de l'URL unique via jq et sauvegarde en sortie de step
           DEPLOY_URL=$(echo $JSON_RESPONSE | jq -r '.deploy_url')
           echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
@@ -72,7 +72,7 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"embeds": [{"title": "🚀 Déploiement Réussi !", "color": 5763719, "fields": [{"name": "Branche", "value": "${{ github.ref_name }}", "inline": true}, {"name": "Auteur", "value": "${{ github.actor }}", "inline": true}, {"name": "🔗 Lien de cette version", "value": "${{ steps.netlify_deploy.outputs.url }}"}, {"name": "🌍 Site Live", "value": "https://dev-m1p13mean-miangaly-tahina.netlify.app"}]}]}' \
+          -d '{"embeds": [{"title": "🚀 Déploiement Réussi !", "color": 5763719, "fields": [{"name": "Branche", "value": "${{ github.ref_name }}", "inline": true}, {"name": "Auteur", "value": "${{ github.actor }}", "inline": true}, {"name": "🔗 Lien de cette version", "value": "${{ steps.netlify_deploy.outputs.url }}"}, {"name": "🌍 Site Live", "value": " https://m1p13mean-miangaly-tahina.netlify.app/"}]}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       # 7. Envoie une notification sur Discord en cas d'ÉCHEC
