@@ -3,16 +3,18 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ShopService } from '@/components/shared/services/shop-service';
 import { UserService } from '@/components/shared/services/user-service';
 import { User } from '@/components/shared/models/user';
-import { Shop } from '@/components/shared/models/shop';
+import { NotificationComponent } from '@/components/shared/components/notification-component/notification-component';
+import { NotificationService } from '@/components/shared/services/notification-service';
 
 @Component({
   selector: 'app-create-shop-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NotificationComponent],
   templateUrl: './create-shop-modal.html',
   styleUrl: './create-shop-modal.scss',
 })
 export class CreateShopModal {
+  private notificationService = inject(NotificationService);
   private fb = inject(FormBuilder);
   private shopService = inject(ShopService);
   private userService = inject(UserService);
@@ -83,7 +85,11 @@ export class CreateShopModal {
   submit() {
     console.log('submitting');
 
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.notificationService.show('Please fill all required fields correctly', 'error');
+      return;
+    }
 
     const v = this.form.value;
 
@@ -98,23 +104,43 @@ export class CreateShopModal {
 
     // CREATE
     if (this.mode() === 'create') {
-      this.shopService.createShop(formData).subscribe(() => {
-        this.created.emit();
-        this.close();
+      this.shopService.createShop(formData).subscribe({
+        next: () => {
+          this.created.emit();
+          this.close();
+          this.notificationService.show('Shop created successfully', 'success');
+        },
+        error: (err) => {
+          console.error('CREATE ERROR', err);
+
+          const message = err?.error?.message || err?.error?.error || 'Failed to create shop';
+
+          this.notificationService.show(message, 'error');
+        },
       });
       return;
     }
 
     // EDIT
-    console.log(this.editingShopId);
 
-    this.shopService.updateShop(this.editingShopId, formData).subscribe(() => {
-      console.log('submitted');
-      // status update (only if changed)
-      this.shopService.updateShopStatus(this.editingShopId, v.status || 'PENDING').subscribe(() => {
-        this.created.emit();
-        this.close();
-      });
+    this.shopService.updateShop(this.editingShopId, formData).subscribe({
+      next: () => {
+        this.shopService.updateShopStatus(this.editingShopId, v.status || 'PENDING').subscribe({
+          next: () => {
+            this.created.emit();
+            this.close();
+            this.notificationService.show('Shop updated successfully', 'success');
+          },
+          error: (err) => {
+            console.error('STATUS UPDATE ERROR', err);
+            this.notificationService.show('Failed to update status', 'error');
+          },
+        });
+      },
+      error: (err) => {
+        console.error('UPDATE SHOP ERROR', err);
+        this.notificationService.show('Failed to update shop', 'error');
+      },
     });
   }
 }

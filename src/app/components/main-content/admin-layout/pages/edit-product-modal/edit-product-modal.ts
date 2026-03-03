@@ -1,6 +1,8 @@
+import { NotificationComponent } from '@/components/shared/components/notification-component/notification-component';
 import { Product } from '@/components/shared/models/product';
 import { AuthService } from '@/components/shared/services/auth';
 import { CategoryService } from '@/components/shared/services/category-service';
+import { NotificationService } from '@/components/shared/services/notification-service';
 import { ProductService } from '@/components/shared/services/product-service';
 import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
@@ -8,11 +10,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-product-modal',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NotificationComponent],
   templateUrl: './edit-product-modal.html',
   styleUrl: './edit-product-modal.scss',
 })
 export class EditProductModal {
+  private notificationService = inject(NotificationService);
   private fb = inject(FormBuilder);
   private productService = inject(ProductService);
   private shopService = inject(ShopService);
@@ -85,16 +88,18 @@ export class EditProductModal {
   submit() {
     const v = this.form.value;
 
-    if (!v.shopId) return;
-
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.notificationService.show('Please fill all required fields correctly', 'error');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('name', v.name || '');
     formData.append('description', v.description || '');
     formData.append('price', String(v.price || 0));
     formData.append('isActive', String(v.isActive ?? true));
-    formData.append('_id', v.shopId);
+    formData.append('shopId', v.shopId ?? '');
     formData.append('stock', String(v.stock || 0));
 
     if (v.categoryId) {
@@ -110,8 +115,17 @@ export class EditProductModal {
           this.created.emit();
           this.close();
           this.reset();
+          this.notificationService.show('Product created successfully', 'success');
         },
-        error: (err) => console.error('CREATE ERROR', err),
+        error: (err) => {
+          console.log(err);
+
+          console.error('CREATE ERROR', err);
+
+          const message = err?.error?.message || err?.error?.error || 'Failed to create product';
+
+          this.notificationService.show(message, 'error');
+        },
       });
     }
 
@@ -123,7 +137,13 @@ export class EditProductModal {
           this.close();
           this.reset();
         },
-        error: (err) => console.error('PATCH ERROR', err),
+        error: (err) => {
+          console.error('PATCH ERROR', err);
+
+          const message = err?.error?.message || err?.error?.error || 'Failed to update product';
+
+          this.notificationService.show(message, 'error');
+        },
       });
     }
   }

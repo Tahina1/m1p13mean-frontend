@@ -1,0 +1,9 @@
+@if (notif.visible()) {
+  <div
+    class="toast"
+    [class.toast--success]="notif.type() === 'success'"
+    [class.toast--error]="notif.type() === 'error'"
+  >
+    {{ notif.message() }}
+  </div>
+}

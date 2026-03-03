@@ -1,0 +1,41 @@
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, -40px); // start slightly above
+  min-width: 300px;
+  max-width: 90%;
+  padding: 14px 24px;
+  border-radius: 14px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  z-index: 99999;
+
+  opacity: 0;
+  animation: slideDown 0.35s ease forwards;
+
+  &--success {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+  }
+
+  &--error {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+  }
+}
+
+@keyframes slideDown {
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

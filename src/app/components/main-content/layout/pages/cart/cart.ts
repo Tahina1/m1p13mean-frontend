@@ -55,7 +55,6 @@ export class Cart {
   }
 
   onCheckoutSuccess() {
-    alert('Commande validée 🎉');
     this.cartService.refreshCartCount();
     this.loadCart();
   }
