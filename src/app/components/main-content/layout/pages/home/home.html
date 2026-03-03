@@ -17,7 +17,7 @@
         <button routerLink="/shops" class="shopBtn">Shop now <span class="arrow"></span></button>
       </div>
     </div>
-    <div class="home__shopCategories">
+    <!-- <div class="home__shopCategories">
       <div class="home__shopCategories__title"><h2>Shop by Category</h2></div>
       <div class="home__shopCategories__cards homeContainer">
         @for (card of cards; track $index) {
@@ -36,19 +36,35 @@
     <div class="home__stores">
       <div class="home__stores__title"><h2>Popular Stores</h2></div>
       <div class="home__stores__list homeContainer">
-        @for (store of stores; track $index) {
+        @for (store of shops(); track store._id) {
           <div class="store">
-            @if (store.sales > 0) {
-              <div class="store__sale">
-                Up to <span>{{ store.sales }}%</span>
-              </div>
-            }
             <div class="store__logo">
-              <picture><img [src]="store.logo" [alt]="store.name" [class]="store.name" /></picture>
+              {{ store.name }}
             </div>
           </div>
         }
       </div>
-    </div>
+    </div> -->
+    <section class="stores-section">
+      <div class="section-header">
+        <h2>Popular Stores</h2>
+        <a routerLink="/shops" class="view-all">View all →</a>
+      </div>
+
+      <div class="stores-grid">
+        @for (store of shops(); track store._id) {
+          <a class="store-card" [routerLink]="['/shops', store._id]">
+            <div class="store-avatar">
+              {{ store.name.charAt(0) }}
+            </div>
+
+            <div class="store-content">
+              <h3>{{ store.name }}</h3>
+              <span>Explore</span>
+            </div>
+          </a>
+        }
+      </div>
+    </section>
   </div>
 </main>

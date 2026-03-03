@@ -3,11 +3,11 @@ import { AuthService } from '@/components/shared/services/auth';
 import { CartService } from '@/components/shared/services/cart-service';
 import { ProductService } from '@/components/shared/services/product-service';
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -28,11 +28,13 @@ export class Products {
     if (!shopId) return;
 
     this.productService.getProductsByShop(shopId).subscribe((res: any) => {
-      this.products.set(res.products);
+      const activeProducts = res.products.filter((p: any) => p.isActive !== false);
+
+      this.products.set(activeProducts);
       this.loading.set(false);
 
       const q: Record<string, number> = {};
-      res.products.forEach((p: any) => (q[p._id] = 1));
+      activeProducts.forEach((p: any) => (q[p._id] = 1));
       this.quantities.set(q);
     });
   }

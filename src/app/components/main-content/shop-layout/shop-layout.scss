@@ -1,0 +1,80 @@
+@use '../../../../assets/scss/commons/variable' as *;
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: $color-primary1;
+  padding: 10px 20px;
+}
+
+.logoutBtn {
+  margin-left: 10px;
+  background-color: $color-neutrals1;
+  border: none;
+  padding: 5px 10px;
+  color: $color-primary1;
+  border-radius: 100px;
+  box-shadow: 0 1px 13px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.shop-name {
+  position: absolute;
+  bottom: 8px;
+  right: 0;
+  transform: translateX(100%);
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+$role-bg: #f3f4f6;
+$role-active-bg: #111827;
+$role-active-color: #ffffff;
+$role-text-color: #374151;
+$role-radius: 999px;
+
+.role-switch {
+  display: inline-flex;
+  align-items: center;
+  background: $role-bg;
+  border-radius: $role-radius;
+  padding: 4px;
+  gap: 4px;
+
+  &__item {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: $role-radius;
+    font-size: 13px;
+    font-weight: 600;
+    color: $role-text-color;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    &--active {
+      background: $role-active-bg;
+      color: $role-active-color;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+  }
+}

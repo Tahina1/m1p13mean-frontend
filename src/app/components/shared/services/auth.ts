@@ -19,19 +19,40 @@ export class AuthService {
   userSignal = signal<any>(null);
   shopId = signal<string | null>(null);
   loading = signal(false);
+  activeRole = signal<'ADMIN' | 'SHOP' | 'CLIENT' | null>(null);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       const user = localStorage.getItem('user');
       const token = localStorage.getItem('token');
+      const savedRole = localStorage.getItem('activeRole');
 
       if (user && token) {
         const parsed = JSON.parse(user);
+
         this.userSignal.set(parsed);
         this.shopId.set(parsed.shopId || null);
         this.isLogged.set(true);
+
+        // 🔥 Restore activeRole
+        if (savedRole && parsed.roles?.includes(savedRole)) {
+          this.activeRole.set(savedRole as any);
+        } else {
+          // fallback logic if no saved role
+          const fallback = parsed.roles?.includes('CLIENT') ? 'CLIENT' : parsed.roles?.[0];
+
+          if (fallback) {
+            this.activeRole.set(fallback as any);
+            localStorage.setItem('activeRole', fallback);
+          }
+        }
       }
     }
+  }
+
+  setActiveRole(role: string) {
+    this.activeRole.set(role as any);
+    localStorage.setItem('activeRole', role);
   }
 
   getAuth(): string {

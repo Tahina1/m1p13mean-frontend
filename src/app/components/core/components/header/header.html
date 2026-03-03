@@ -9,17 +9,30 @@
             </div>
           </a>
         </div>
+        @if (availableRoles().length > 1) {
+          <div class="role-switch">
+            @for (role of availableRoles(); track role) {
+              <button
+                class="role-switch__item"
+                [class.role-switch__item--active]="authService.activeRole() === role"
+                (click)="switchRole(role)"
+              >
+                {{ role }}
+              </button>
+            }
+          </div>
+        }
       </div>
       <div class="content__right">
         <nav class="navbar">
           <a routerLink="/home" routerLinkActive="active">Accueil</a>
           <a routerLink="/shops" routerLinkActive="active">Boutiques</a>
-          <a href="#">Services</a>
+          <a routerLink="/cart" routerLinkActive="active">Panier</a>
           <a href="#">Contact</a>
         </nav>
         <div class="header-actions">
           <!-- CART -->
-          <div class="cart" (click)="goToCart()" [class.bump]="cartBounce()">
+          <div class="cart" routerLink="/cart" [class.bump]="cartBounce()">
             <i class="icn-cart"></i>
 
             @if (cartService.cartCount() > 0) {

@@ -10,11 +10,13 @@
   &__logo {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     margin-bottom: 40px;
+    cursor: pointer;
 
     img {
-      width: 42px;
+      width: 173px;
     }
 
     &-text {

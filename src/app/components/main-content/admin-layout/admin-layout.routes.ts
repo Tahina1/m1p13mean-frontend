@@ -26,6 +26,11 @@ export const routes: Routes = [
         canActivate: [adminGuard],
         loadComponent: () => import('./pages/users/users').then((c) => c.Users),
       },
+      {
+        path: 'products',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./pages/product-list/product-list').then((c) => c.ProductList),
+      },
     ],
   },
 ];

@@ -1,12 +1,30 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpRequestService } from './http-request';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
+import { Pagination } from '../models/pagination';
+
+interface ProductApiResponse {
+  products: Product[];
+  pagination: Pagination;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+  isOpen = signal(false);
+  selectedProduct = signal<Product | null>(null);
+
+  open(product: Product) {
+    this.selectedProduct.set(product);
+    this.isOpen.set(true);
+  }
+
+  close() {
+    this.isOpen.set(false);
+    this.selectedProduct.set(null);
+  }
   private http = inject(HttpRequestService);
 
   createProduct(data: FormData): Observable<Product> {
@@ -15,6 +33,10 @@ export class ProductService {
 
   getShopProducts(shopId: string): Observable<Product[]> {
     return this.http.get(`api/products/shop/${shopId}`);
+  }
+
+  getAllProducts(page: number = 1, limit: number = 5) {
+    return this.http.get<ProductApiResponse>(`api/products?page=${page}&limit=${limit}`);
   }
 
   deleteProduct(id: string) {

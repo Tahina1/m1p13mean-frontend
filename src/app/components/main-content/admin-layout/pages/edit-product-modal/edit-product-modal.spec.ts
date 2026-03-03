@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayoutAuth } from './layout-auth';
+import { EditProductModal } from './edit-product-modal';
 
-describe('LayoutAuth', () => {
-  let component: LayoutAuth;
-  let fixture: ComponentFixture<LayoutAuth>;
+describe('EditProductModal', () => {
+  let component: EditProductModal;
+  let fixture: ComponentFixture<EditProductModal>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LayoutAuth]
+      imports: [EditProductModal]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LayoutAuth);
+    fixture = TestBed.createComponent(EditProductModal);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
