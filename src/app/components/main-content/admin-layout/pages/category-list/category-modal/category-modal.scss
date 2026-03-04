@@ -5,7 +5,6 @@
   inset: 0;
   z-index: 999;
   pointer-events: none;
-  font-family: 'Poppins', sans-serif;
 
   &--open {
     pointer-events: auto;
@@ -133,7 +132,7 @@
 
   &__submit {
     margin-top: 8px;
-    background: linear-gradient(135deg, $color-primary1, darken($color-primary1, 10%));
+    background: $color-primary1;
     color: white;
     border: none;
     padding: 14px;
