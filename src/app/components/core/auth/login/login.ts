@@ -14,8 +14,8 @@ export class Login {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   form = this.fb.group({
-    email: [''],
-    password: [''],
+    email: ['tahina@gmail.com'],
+    password: ['tahina'],
   });
 
   authService = inject(AuthService);
