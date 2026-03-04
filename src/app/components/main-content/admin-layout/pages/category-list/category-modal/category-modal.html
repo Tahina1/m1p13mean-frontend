@@ -1,0 +1,35 @@
+<div class="category-modal" [class.category-modal--open]="isOpen">
+  <div class="category-modal__overlay" (click)="close()"></div>
+
+  <div class="category-modal__panel">
+    <div class="category-modal__header">
+      <h2 class="category-modal__title">
+        {{ editCategory ? 'Modifier catégorie' : 'Ajouter une catégorie' }}
+      </h2>
+
+      <button class="category-modal__close" (click)="close()">✕</button>
+    </div>
+
+    <form class="category-modal__form" [formGroup]="form" (ngSubmit)="submit()">
+      <!-- NAME -->
+      <div class="category-modal__group">
+        <label>Nom catégorie</label>
+        <input type="text" formControlName="name" />
+      </div>
+
+      <!-- ACTIVE (only in edit mode) -->
+      @if (editCategory) {
+        <div class="category-modal__switch">
+          <input type="checkbox" formControlName="isActive" />
+          <span>Catégorie active</span>
+        </div>
+      }
+
+      <button class="category-modal__submit" type="submit">
+        {{ editCategory ? 'Sauvegarder' : 'Créer catégorie' }}
+      </button>
+    </form>
+  </div>
+</div>
+
+<app-notification-component></app-notification-component>
