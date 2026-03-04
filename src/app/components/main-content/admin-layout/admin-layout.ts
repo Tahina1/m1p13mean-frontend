@@ -25,7 +25,6 @@ export class AdminLayout {
       return true;
     });
   });
-
   switchRole(role: string) {
     const shopId = this.authService.shopId();
 

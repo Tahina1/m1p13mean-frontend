@@ -9,8 +9,8 @@ import { Product, ProductCategory } from '../models/product';
 export class CategoryService {
   private http = inject(HttpRequestService);
 
-  createProductCategory(data: FormData): Observable<ProductCategory> {
-    return this.http.post('api/product-categories', data);
+  createProductCategory(name: string): Observable<ProductCategory> {
+    return this.http.post('api/product-categories', { name });
   }
 
   getProductCategories(): Observable<ProductCategory[]> {
@@ -25,7 +25,7 @@ export class CategoryService {
     return this.http.delete(`api/product-categories/${id}`);
   }
 
-  updateProduct(id: string, data: FormData) {
-    return this.http.patch(`api/product-categories/${id}`, data);
+  updateProduct(id: string, name: string) {
+    return this.http.patch(`api/product-categories/${id}`, { name });
   }
 }

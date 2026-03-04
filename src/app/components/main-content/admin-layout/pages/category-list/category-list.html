@@ -4,6 +4,10 @@
       <h2 class="categories__title">Catégories Produits</h2>
       <p class="categories__subtitle">Gérer toutes les catégories</p>
     </div>
+    <button class="categories__add-btn" (click)="openCreate()">
+      <i class="icn-plus"></i>
+      Ajouter catégorie
+    </button>
   </div>
 
   <div class="filters">
@@ -23,6 +27,7 @@
           <th>Nom</th>
           <th>Status</th>
           <th>Date création</th>
+          <th>Action</th>
         </tr>
       </thead>
 
@@ -42,9 +47,21 @@
             </td>
 
             <td>{{ category.createdAt | date: 'short' }}</td>
+
+            <td class="actions">
+              <button class="icon-btn edit" (click)="openEdit(category)">
+                <i class="icn-pencil"></i>
+              </button>
+            </td>
           </tr>
         }
       </tbody>
     </table>
   </div>
 </div>
+<app-category-modal
+  [isOpen]="isModalOpen"
+  [editCategory]="editCategory"
+  (closeModal)="isModalOpen = false"
+  (created)="loadCategories()"
+></app-category-modal>

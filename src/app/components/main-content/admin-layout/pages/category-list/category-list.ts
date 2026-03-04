@@ -2,11 +2,12 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CategoryService } from '@/components/shared/services/category-service';
 import { ProductCategory } from '@/components/shared/models/product';
 import { CommonModule } from '@angular/common';
+import { CategoryModal } from './category-modal/category-modal';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CategoryModal],
   templateUrl: './category-list.html',
   styleUrl: './category-list.scss',
 })
@@ -16,6 +17,8 @@ export class CategoryList {
   categories = signal<ProductCategory[]>([]);
   searchTerm = signal('');
   loading = signal(false);
+  isModalOpen = false;
+  editCategory: ProductCategory | null = null;
 
   filteredCategories = computed(() => {
     const search = this.searchTerm().toLowerCase();
@@ -38,5 +41,14 @@ export class CategoryList {
 
   resetSearch() {
     this.searchTerm.set('');
+  }
+  openCreate() {
+    this.editCategory = null;
+    this.isModalOpen = true;
+  }
+
+  openEdit(category: ProductCategory) {
+    this.editCategory = category;
+    this.isModalOpen = true;
   }
 }
