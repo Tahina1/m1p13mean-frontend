@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { HttpRequestService } from './http-request';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { DefaultData } from '../models/global';
 import { Router } from '@angular/router';
 
@@ -67,7 +67,30 @@ export class AuthService {
   }
 
   login(data: { email: string | null; password: string | null }): Observable<DefaultData> {
-    return this.http.post(`api/auth/login`, data);
+    return this.http.post<DefaultData>(`api/auth/login`, data).pipe(
+      tap((res: any) => {
+        if (res.accessToken) {
+          localStorage.setItem('token', res.accessToken);
+        }
+
+        localStorage.setItem('user', JSON.stringify(res.user));
+
+        this.userSignal.set(res.user);
+        this.shopId.set(res.user.shopId || null);
+
+        const roles = res.user.roles || [];
+
+        let defaultRole: 'ADMIN' | 'SHOP' | 'CLIENT' = 'CLIENT';
+
+        if (roles.length === 1) defaultRole = roles[0];
+
+        if (roles.length > 1) {
+          defaultRole = roles.includes('CLIENT') ? 'CLIENT' : roles[0];
+        }
+
+        this.setActiveRole(defaultRole);
+      })
+    );
   }
 
   register(data: {
