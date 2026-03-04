@@ -28,6 +28,7 @@ export class Login {
     this.authService.login(data).subscribe({
       next: (res: any) => {
         const role = this.authService.activeRole();
+        this.authService.setAuthPopup(false);
 
         if (role === 'ADMIN') {
           this.router.navigate(['/admin'], { replaceUrl: true });
