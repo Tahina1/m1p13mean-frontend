@@ -10,14 +10,14 @@ import { AuthService } from '../shared/services/auth';
 })
 export class MainContent {
   private readonly authService = inject(AuthService);
-  ngOnInit() {
-    if (!localStorage.getItem('token')) {
-      this.authService
-        .login({
-          email: 'all@gmail.com',
-          password: '12345',
-        })
-        .subscribe();
-    }
-  }
+  // ngOnInit() {
+  //   if (!localStorage.getItem('token')) {
+  //     this.authService
+  //       .login({
+  //         email: 'all@gmail.com',
+  //         password: '12345',
+  //       })
+  //       .subscribe();
+  //   }
+  // }
 }
