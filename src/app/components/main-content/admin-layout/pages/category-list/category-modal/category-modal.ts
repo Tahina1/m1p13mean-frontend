@@ -48,13 +48,11 @@ export class CategoryModal {
     }
 
     const v = this.form.value;
-
-    const formData = new FormData();
-    formData.append('name', v.name || '');
+    const name = v.name || '';
 
     // CREATE
     if (!this.editCategory) {
-      this.categoryService.createProductCategory(formData).subscribe({
+      this.categoryService.createProductCategory(name).subscribe({
         next: () => {
           this.notificationService.show('Category created successfully', 'success');
           this.created.emit();
@@ -70,9 +68,7 @@ export class CategoryModal {
 
     // UPDATE
     else {
-      formData.append('isActive', String(v.isActive ?? true));
-
-      this.categoryService.updateProduct(this.editCategory._id, formData).subscribe({
+      this.categoryService.updateProduct(this.editCategory._id, name).subscribe({
         next: () => {
           this.notificationService.show('Category updated successfully', 'success');
           this.created.emit();
