@@ -587,8 +587,35 @@
   justify-content: center;
   align-items: center;
   padding: 80px 0;
-  font-size: 40px;
+  font-size: 120px;
   color: #9d0010;
+
+  &__spinner-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .spinner {
+      font-size: 120px;
+    }
+  }
+
+  &__hint {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+    background: #f7f7f7;
+    padding: 2px 12px;
+    white-space: nowrap;
+    pointer-events: none;
+
+    strong {
+      color: #555;
+      font-weight: 700;
+    }
+  }
 }
 
 // ─── No results ──────────────────────────────────────────────────────────────
