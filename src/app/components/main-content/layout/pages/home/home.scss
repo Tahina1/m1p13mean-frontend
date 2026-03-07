@@ -644,6 +644,8 @@
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     transform: translateY(-5px);
@@ -673,6 +675,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    flex: 1;
   }
 
   &__name {
@@ -697,7 +700,7 @@
   &__btn {
     display: block;
     text-align: center;
-    margin-top: 4px;
+    margin-top: auto;
     padding: 9px 14px;
     border-radius: 8px;
     font-size: 13px;
