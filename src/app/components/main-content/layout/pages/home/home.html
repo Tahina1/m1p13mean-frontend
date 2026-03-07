@@ -45,6 +45,135 @@
         }
       </div>
     </div> -->
+    <!-- ─── ALL PRODUCTS ──────────────────────────────────────────────── -->
+    <section class="products-section" id="products-section">
+
+      <!-- Header -->
+      <div class="section-header">
+        <div class="products-section__title">
+          <h2>Tous les produits</h2>
+          @if (!loadingProducts()) {
+            <span class="products-count">{{ totalItems() }} résultat(s)</span>
+          }
+        </div>
+      </div>
+
+      <!-- Search + Filter toggle -->
+      <div class="search-bar">
+        <div class="search-bar__input-wrap">
+          <input
+            type="text"
+            placeholder="Rechercher un produit..."
+            [value]="nameFilter()"
+            (input)="nameFilter.set($any($event.target).value)"
+            (keyup.enter)="search()"
+            class="search-input"
+          />
+          <button class="search-btn" (click)="search()">Rechercher</button>
+        </div>
+
+        <div class="search-bar__actions">
+          <button
+            class="filter-toggle"
+            [class.active]="showFilters()"
+            (click)="toggleFilters()"
+          >
+            Filtres {{ showFilters() ? '▲' : '▼' }}
+          </button>
+
+          @if (hasActiveFilters()) {
+            <button class="clear-btn" (click)="clearFilters()">✕ Réinitialiser</button>
+          }
+        </div>
+      </div>
+
+      <!-- Filter panel -->
+      @if (showFilters()) {
+        <div class="filter-panel">
+
+          @if (categories().length) {
+            <div class="filter-group">
+              <h4>Catégories</h4>
+              <div class="category-chips">
+                @for (cat of categories(); track cat._id) {
+                  <button
+                    class="chip"
+                    [class.active]="isCategorySelected(cat._id)"
+                    (click)="toggleCategory(cat._id)"
+                  >
+                    {{ cat.name }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <div class="filter-group">
+            <h4>Fourchette de prix</h4>
+            <div class="price-range">
+              <input
+                type="number"
+                placeholder="Min"
+                [value]="minPrice()"
+                (input)="minPrice.set($any($event.target).value)"
+                min="0"
+              />
+              <span class="price-sep">—</span>
+              <input
+                type="number"
+                placeholder="Max"
+                [value]="maxPrice()"
+                (input)="maxPrice.set($any($event.target).value)"
+                min="0"
+              />
+              <span class="price-unit">Ar</span>
+            </div>
+          </div>
+
+          <button class="apply-btn" (click)="search()">Appliquer</button>
+        </div>
+      }
+
+      <!-- Loading -->
+      @if (loadingProducts()) {
+        <div class="products-loading">
+          <i class="icn-spinner2 spinner"></i>
+        </div>
+      }
+
+      <!-- Grid + Pagination -->
+      @if (!loadingProducts()) {
+        @if (products().length === 0) {
+          <div class="no-results">
+            <p>Aucun produit ne correspond à votre recherche.</p>
+            <button class="clear-btn" (click)="clearFilters()">Réinitialiser les filtres</button>
+          </div>
+        } @else {
+          <div class="all-products-grid">
+            @for (p of products(); track p._id) {
+              <div class="pcard">
+                <a [routerLink]="['/products', p._id]" class="pcard__img">
+                  <img [src]="p.images[0]" [alt]="p.name" />
+                </a>
+                <div class="pcard__body">
+                  <h3 class="pcard__name">{{ p.name }}</h3>
+                  <p class="pcard__price">{{ p.price }} Ar</p>
+                  <a [routerLink]="['/products', p._id]" class="pcard__btn">Voir détails →</a>
+                </div>
+              </div>
+            }
+          </div>
+
+          <app-pagination
+            [page]="currentPage()"
+            [totalPages]="totalPages()"
+            (pageChange)="onPageChange($event)"
+          />
+        }
+      }
+
+    </section>
+
     <section class="stores-section">
       <div class="section-header">
         <h2>Popular Stores</h2>
@@ -66,5 +195,6 @@
         }
       </div>
     </section>
+
   </div>
 </main>

@@ -54,4 +54,23 @@ export class ProductService {
   getProductById(id: string): Observable<Product> {
     return this.http.get<Product>(`api/products/${id}`);
   }
+
+  searchProducts(params: {
+    name?: string;
+    categoryIds?: string[];
+    minPrice?: number;
+    maxPrice?: number;
+    page?: number;
+    limit?: number;
+  }): Observable<ProductApiResponse> {
+    const parts: string[] = [
+      `page=${params.page ?? 1}`,
+      `limit=${params.limit ?? 12}`,
+    ];
+    if (params.name) parts.push(`name=${encodeURIComponent(params.name)}`);
+    params.categoryIds?.forEach((id) => parts.push(`categoryIds=${id}`));
+    if (params.minPrice != null) parts.push(`minPrice=${params.minPrice}`);
+    if (params.maxPrice != null) parts.push(`maxPrice=${params.maxPrice}`);
+    return this.http.get<ProductApiResponse>(`api/products?${parts.join('&')}`);
+  }
 }
