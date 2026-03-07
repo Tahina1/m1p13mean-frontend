@@ -2,6 +2,7 @@ import { Product } from '@/components/shared/models/product';
 import { AuthService } from '@/components/shared/services/auth';
 import { CartService } from '@/components/shared/services/cart-service';
 import { ProductService } from '@/components/shared/services/product-service';
+import { ShopService } from '@/components/shared/services/shop-service';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -14,25 +15,31 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class Products {
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
-
+  private shopService = inject(ShopService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
 
   products = signal<Product[]>([]);
+  shop = signal<any>(null);
   loading = signal(true);
   shopName = signal('Boutique');
   quantities = signal<Record<string, number>>({});
+  activeTab = signal<'produits' | 'apropos'>('produits');
 
   ngOnInit() {
     const shopId = this.route.snapshot.paramMap.get('id');
     if (!shopId) return;
 
+    this.shopService.getShopById(shopId).subscribe((res: any) => {
+      const s = res?.shop ?? res;
+      this.shop.set(s);
+      this.shopName.set(s.name);
+    });
+
     this.productService.getProductsByShop(shopId).subscribe((res: any) => {
       const activeProducts = res.products.filter((p: any) => p.isActive !== false);
-
       this.products.set(activeProducts);
       this.loading.set(false);
-
       const q: Record<string, number> = {};
       activeProducts.forEach((p: any) => (q[p._id] = 1));
       this.quantities.set(q);
