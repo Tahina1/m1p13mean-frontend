@@ -2,51 +2,100 @@
   <!-- HEADER -->
   <div class="shop-products__header">
     <button class="back" routerLink="/shops">← Back</button>
-
     <div>
       <h1>{{ shopName() }}</h1>
       <p>{{ products().length }} produits disponibles</p>
     </div>
   </div>
 
-  <!-- LOADING -->
-  @if (loading()) {
-    <div class="loading">Chargement produits...</div>
-  }
+  <!-- TABS -->
+  <div class="shop-tabs">
+    <button
+      class="shop-tabs__tab"
+      [class.active]="activeTab() === 'produits'"
+      (click)="activeTab.set('produits')"
+    >
+      Produits
+    </button>
+    <button
+      class="shop-tabs__tab"
+      [class.active]="activeTab() === 'apropos'"
+      (click)="activeTab.set('apropos')"
+    >
+      À propos
+    </button>
+  </div>
 
-  <!-- EMPTY -->
-  @if (!loading() && products().length === 0) {
-    <div class="empty">Aucun produit pour cette boutique 😢</div>
-  }
-
-  <!-- GRID -->
-  @if (!loading() && products().length > 0) {
-    <div class="products-grid">
-      @for (p of products(); track p._id) {
-        <div class="product-card">
-          <div class="product-card__img">
-            <img [src]="p?.images?.[0]" />
-          </div>
-
-          <div class="product-card__content">
-            <h3>{{ p.name }}</h3>
-            <p class="price">{{ p.price }} Ar</p>
-
-            <a [routerLink]="['/products', p._id]" class="detail-btn">Voir détails →</a>
-            <div class="product-card__bottom">
-              <div class="qty-cart">
-                <div class="qty-box">
-                  <button (click)="decrease(p._id)">−</button>
-                  <span>{{ quantities()[p._id] }}</span>
-                  <button (click)="increase(p._id)">+</button>
+  <!-- ── ONGLET PRODUITS ─────────────────────────────────────── -->
+  @if (activeTab() === 'produits') {
+    @if (loading()) {
+      <div class="loading"><i class="icn-spinner2 spinner"></i></div>
+    }
+    @if (!loading() && products().length === 0) {
+      <div class="empty">Aucun produit pour cette boutique 😢</div>
+    }
+    @if (!loading() && products().length > 0) {
+      <div class="products-grid">
+        @for (p of products(); track p._id) {
+          <div class="product-card">
+            <div class="product-card__img">
+              <img [src]="p?.images?.[0]" />
+            </div>
+            <div class="product-card__content">
+              <h3>{{ p.name }}</h3>
+              <p class="price">{{ p.price }} Ar</p>
+              <a [routerLink]="['/products', p._id]" class="detail-btn">Voir détails →</a>
+              <div class="product-card__bottom">
+                <div class="qty-cart">
+                  <div class="qty-box">
+                    <button (click)="decrease(p._id)">−</button>
+                    <span>{{ quantities()[p._id] }}</span>
+                    <button (click)="increase(p._id)">+</button>
+                  </div>
+                  <button class="add-btn" (click)="addToCart(p._id)">Ajouter</button>
                 </div>
-
-                <button class="add-btn" (click)="addToCart(p._id)">Ajouter</button>
               </div>
             </div>
           </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- ── ONGLET À PROPOS ─────────────────────────────────────── -->
+  @if (activeTab() === 'apropos') {
+    @if (shop()) {
+      @let s = shop();
+      <div class="shop-about">
+
+        <!-- Chips d'infos horizontaux -->
+        <div class="shop-about__chips">
+          @if (s.category) {
+            <span class="shop-about__chip shop-about__chip--category">{{ s.category }}</span>
+          }
+          @if (s.location?.floor || s.location?.shopNumber) {
+            <span class="shop-about__chip">
+              📍
+              @if (s.location?.floor) { Étage {{ s.location.floor }} }
+              @if (s.location?.floor && s.location?.shopNumber) { · }
+              @if (s.location?.shopNumber) { Boutique {{ s.location.shopNumber }} }
+            </span>
+          }
+          <span class="shop-about__chip shop-about__chip--open">● Ouvert</span>
         </div>
-      }
-    </div>
+
+        <!-- Galerie pleine largeur -->
+        @if (s.gallery?.length) {
+          <div class="shop-about__gallery">
+            @for (img of s.gallery; track $index) {
+              <img [src]="img" [alt]="s.name" class="shop-about__gallery-img" [class.shop-about__gallery-img--wide]="$index === 0" />
+            }
+          </div>
+        } @else {
+          <div class="shop-about__no-gallery">Aucune photo disponible</div>
+        }
+
+      </div>
+    }
   }
 </div>

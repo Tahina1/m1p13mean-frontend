@@ -2,7 +2,6 @@
   padding: 40px 60px;
   background: #f7f7f7;
   min-height: 100vh;
-  font-family: Poppins;
 
   &__header {
     display: flex;
@@ -38,6 +37,110 @@
   padding: 80px;
   color: #888;
   font-size: 18px;
+}
+
+// ─── Tabs ────────────────────────────────────────────────────────────────────
+.shop-tabs {
+  display: flex;
+  border-bottom: 2px solid #ebebeb;
+  margin-bottom: 32px;
+  gap: 4px;
+
+  &__tab {
+    background: none;
+    border: none;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    &:hover {
+      color: #b30000;
+    }
+
+    &.active {
+      color: #b30000;
+      font-weight: 700;
+      border-bottom-color: #b30000;
+    }
+  }
+}
+
+// ─── À propos ────────────────────────────────────────────────────────────────
+.shop-about {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    background: #f0f0f0;
+    color: #444;
+    white-space: nowrap;
+
+    &--category {
+      background: #fdeaea;
+      color: #b30000;
+      font-weight: 600;
+    }
+
+    &--open {
+      background: #e8f8f0;
+      color: #1e8e5a;
+      font-weight: 600;
+    }
+  }
+
+  &__gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  &__gallery-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transition: transform 0.22s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &--wide {
+      grid-column: span 2;
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  &__no-gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    background: #efefef;
+    border-radius: 16px;
+    color: #bbb;
+    font-size: 14px;
+  }
 }
 
 /* GRID */
