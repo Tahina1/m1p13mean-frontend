@@ -4,6 +4,6 @@
 // };
 export const environment = {
   production: false,
-  apiUrl: 'https://m1p13mean-backend.vercel.app',
+  apiUrl: 'https://m1p13mean-backend-lsh9.onrender.com',
   appName: 'M1P13 Mean Frontend',
 };
