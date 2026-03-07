@@ -32,6 +32,7 @@
             <h3>{{ p.name }}</h3>
             <p class="price">{{ p.price }} Ar</p>
 
+            <a [routerLink]="['/products', p._id]" class="detail-btn">Voir détails →</a>
             <div class="product-card__bottom">
               <div class="qty-cart">
                 <div class="qty-box">

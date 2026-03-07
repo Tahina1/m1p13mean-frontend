@@ -50,4 +50,8 @@ export class ProductService {
   getProductsByShop(shopId: string, page = 1, limit = 5) {
     return this.http.get(`api/products?shopId=${shopId}&page=${page}&limit=${limit}`);
   }
+
+  getProductById(id: string): Observable<Product> {
+    return this.http.get<Product>(`api/products/${id}`);
+  }
 }
