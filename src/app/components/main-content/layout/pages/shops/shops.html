@@ -1,28 +1,51 @@
 <div class="shops-page">
   <!-- HEADER -->
   <div class="shops-page__header">
-    <h1>Toutes les boutiques</h1>
-    <p>Découvrez toutes les boutiques du centre commercial</p>
+    <div>
+      <h1>Toutes les boutiques</h1>
+      <p>Découvrez toutes les boutiques du centre commercial</p>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="shops-page__filters">
+    <div class="shops-page__search">
+      <i class="icn-search"></i>
+      <input
+        type="text"
+        placeholder="Rechercher une boutique..."
+        [value]="searchName()"
+        (input)="searchName.set($any($event.target).value)"
+      />
+    </div>
+    @if (searchName()) {
+      <button class="shops-page__reset" (click)="resetFilters()">✕ Effacer</button>
+    }
   </div>
 
   <!-- LOADING -->
   @if (loading()) {
-    <div class="shops-page__loading">Chargement des boutiques...</div>
+    <div class="shops-page__loading">
+      <i class="icn-spinner2 spinner"></i>
+    </div>
+  }
+
+  <!-- EMPTY -->
+  @if (!loading() && shops().length === 0) {
+    <div class="shops-page__empty">Aucune boutique trouvée 😢</div>
   }
 
   <!-- SHOPS GRID -->
-  @if (!loading()) {
+  @if (!loading() && shops().length > 0) {
     <div class="shops-page__grid">
       @for (shop of shops(); track shop._id) {
         <div class="shop-card">
           <div class="shop-card__image">
             <img [src]="shop.gallery?.[0] || 'assets/images/shop-placeholder.jpg'" alt="shop" />
           </div>
-
           <div class="shop-card__content">
             <h3>{{ shop.name }}</h3>
             <p class="shop-card__category">{{ shop.category }}</p>
-
             <div class="shop-card__footer">
               <button class="shop-card__btn" (click)="openShop(shop._id)">Voir boutique →</button>
             </div>
@@ -30,5 +53,7 @@
         </div>
       }
     </div>
+
+    <app-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="onPageChange($event)" />
   }
 </div>
