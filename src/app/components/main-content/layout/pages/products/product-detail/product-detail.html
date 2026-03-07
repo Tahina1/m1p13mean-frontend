@@ -1,0 +1,86 @@
+@if (loading()) {
+  <div class="global-spinner">
+    <i class="icn-spinner2 spinner"></i>
+  </div>
+}
+
+@if (!loading() && product()) {
+  @let p = product()!;
+
+  <div class="detail-page">
+
+    <a [routerLink]="['/shops', p.shopId]" class="detail-back">
+      ← Retour à la boutique
+    </a>
+
+    <div class="detail-layout">
+
+      <!-- LEFT : Images -->
+      <div class="detail-images">
+        <div class="detail-images__main">
+          <img [src]="selectedImage() || p.images[0]" [alt]="p.name" />
+        </div>
+
+        @if (p.images.length > 1) {
+          <div class="detail-images__thumbs">
+            @for (img of p.images; track img) {
+              <div
+                class="thumb"
+                [class.active]="selectedImage() === img"
+                (click)="selectImage(img)"
+              >
+                <img [src]="img" [alt]="p.name" />
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- RIGHT : Infos -->
+      <div class="detail-info">
+
+        <h1 class="detail-info__name">{{ p.name }}</h1>
+
+        @if (p.categoryIds.length) {
+          <div class="detail-info__categories">
+            @for (cat of p.categoryIds; track cat._id) {
+              <span class="category-badge">{{ cat.name }}</span>
+            }
+          </div>
+        }
+
+        <p class="detail-info__description">{{ p.description }}</p>
+
+        <div class="detail-info__price">{{ p.price }} Ar</div>
+
+        <div class="detail-info__stock" [class.out-of-stock]="p.stock === 0">
+          <span class="stock-dot" [class.active]="p.stock > 0" [class.out]="p.stock === 0"></span>
+          @if (p.stock > 0) {
+            {{ p.stock }} article(s) disponible(s)
+          } @else {
+            Rupture de stock
+          }
+        </div>
+
+        <div class="detail-info__divider"></div>
+
+        <div class="detail-info__actions">
+          <div class="qty-box">
+            <button (click)="decrease()" [disabled]="quantity() <= 1">−</button>
+            <span>{{ quantity() }}</span>
+            <button (click)="increase()" [disabled]="p.stock === 0">+</button>
+          </div>
+
+          <button
+            class="add-cart-btn"
+            (click)="addToCart()"
+            [disabled]="p.stock === 0"
+          >
+            Ajouter au panier
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}
