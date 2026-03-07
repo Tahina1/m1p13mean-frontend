@@ -4,10 +4,11 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Auth } from '@/components/core/auth/auth';
 import { AuthService } from '@/components/shared/services/auth';
+import { NotificationComponent } from '@/components/shared/components/notification-component/notification-component';
 
 @Component({
   selector: 'app-layout',
-  imports: [Header, Footer, RouterOutlet, Auth],
+  imports: [Header, Footer, RouterOutlet, Auth, NotificationComponent],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })

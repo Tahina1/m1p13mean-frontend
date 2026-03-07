@@ -1,6 +1,7 @@
 import { AuthService } from '@/components/shared/services/auth';
 import { CartService } from '@/components/shared/services/cart-service';
-import { Component, inject } from '@angular/core';
+import { NotificationService } from '@/components/shared/services/notification-service';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -19,16 +20,20 @@ export class Login {
   });
 
   authService = inject(AuthService);
-  loading = false;
+  loading = signal(false);
   private readonly cartService = inject(CartService);
+  private readonly notif = inject(NotificationService);
 
   login() {
     const data = this.form.getRawValue();
 
+    this.loading.set(true);
     this.authService.login(data).subscribe({
       next: (res: any) => {
+        this.loading.set(false);
         const role = this.authService.activeRole();
         this.authService.setAuthPopup(false);
+        this.notif.show('Connexion réussie !');
 
         if (role === 'ADMIN') {
           this.router.navigate(['/admin'], { replaceUrl: true });
@@ -37,6 +42,10 @@ export class Login {
         } else {
           this.router.navigate(['/home'], { replaceUrl: true });
         }
+      },
+      error: () => {
+        this.loading.set(false);
+        this.notif.show('Email ou mot de passe incorrect', 'error');
       },
     });
   }
