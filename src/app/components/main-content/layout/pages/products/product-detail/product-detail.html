@@ -74,9 +74,13 @@
           <button
             class="add-cart-btn"
             (click)="addToCart()"
-            [disabled]="p.stock === 0"
+            [disabled]="p.stock === 0 || addingToCart()"
           >
-            Ajouter au panier
+            @if (addingToCart()) {
+              <i class="icn-spinner2 spinner"></i>
+            } @else {
+              Ajouter au panier
+            }
           </button>
         </div>
 

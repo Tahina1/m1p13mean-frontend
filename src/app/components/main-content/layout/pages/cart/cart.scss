@@ -26,9 +26,17 @@
   gap: 20px;
 }
 
+.cart-loading {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+  font-size: 36px;
+  color: $color-primary1;
+}
+
 .cart-item {
   display: grid;
-  grid-template-columns: 80px 1fr 140px 120px 40px;
+  grid-template-columns: 1fr 140px 120px 40px;
   align-items: center;
   gap: 20px;
   background: white;
@@ -36,11 +44,28 @@
   border-radius: 12px;
   box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
 
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 8px;
+    transition: background 0.18s;
+    padding: 4px;
+    margin: -4px;
+
+    &:hover {
+      background: #f7f7f7;
+    }
+  }
+
   img {
     width: 70px;
     height: 70px;
     object-fit: cover;
     border-radius: 10px;
+    flex-shrink: 0;
   }
 
   &__info h3 {

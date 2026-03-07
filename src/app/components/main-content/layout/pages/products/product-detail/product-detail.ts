@@ -1,6 +1,7 @@
 import { Product } from '@/components/shared/models/product';
 import { AuthService } from '@/components/shared/services/auth';
 import { CartService } from '@/components/shared/services/cart-service';
+import { NotificationService } from '@/components/shared/services/notification-service';
 import { ProductService } from '@/components/shared/services/product-service';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -17,9 +18,11 @@ export class ProductDetail {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
+  private notif = inject(NotificationService);
 
   product = signal<Product | null>(null);
   loading = signal(true);
+  addingToCart = signal(false);
   quantity = signal(1);
   selectedImage = signal<string>('');
 
@@ -57,13 +60,17 @@ export class ProductDetail {
       return;
     }
 
+    this.addingToCart.set(true);
     this.cartService.addToCart(p._id, this.quantity()).subscribe({
       next: () => {
         this.cartService.refreshCartCount();
         this.cartService.notifyCartUpdated();
+        this.addingToCart.set(false);
+        this.notif.show('Produit ajouté au panier !');
       },
       error: (err) => {
-        alert(err?.error?.message || 'Erreur panier');
+        this.addingToCart.set(false);
+        this.notif.show(err?.error?.message || 'Erreur lors de l\'ajout au panier', 'error');
       },
     });
   }

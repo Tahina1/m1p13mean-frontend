@@ -4,12 +4,14 @@ import { HttpRequestService } from './http-request';
 import { Observable, tap } from 'rxjs';
 import { DefaultData } from '../models/global';
 import { Router } from '@angular/router';
+import { NotificationService } from './notification-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly router = inject(Router);
+  private readonly notif = inject(NotificationService);
   loginPopup = signal(false);
   private readonly http = inject(HttpRequestService);
   private readonly platformId = inject(PLATFORM_ID);
@@ -122,6 +124,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.userSignal.set(null);
+    this.notif.show('Vous avez été déconnecté');
     this.router.navigate(['/home']);
   }
 }

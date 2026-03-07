@@ -6,7 +6,9 @@
   </div>
 
   @if (loading()) {
-    <p>Chargement...</p>
+    <div class="cart-loading">
+      <i class="icn-spinner2 spinner"></i>
+    </div>
   }
 
   @if (!loading() && cart()?.items?.length === 0) {
@@ -20,13 +22,15 @@
     <div class="cart-list">
       @for (item of cart()?.items; track item._id) {
         <div class="cart-item">
-          <img [src]="item.productId.images?.[0]" />
+          <a class="cart-item__link" [routerLink]="['/products', item.productId._id]">
+            <img [src]="item.productId.images?.[0]" />
 
-          <div class="cart-item__info">
-            <h3>{{ item.productId.name }}</h3>
-            <p class="shop">{{ item.shopId.name }}</p>
-            <p class="price">{{ item.priceAtAdd }} Ar</p>
-          </div>
+            <div class="cart-item__info">
+              <h3>{{ item.productId.name }}</h3>
+              <p class="shop">{{ item.shopId.name }}</p>
+              <p class="price">{{ item.priceAtAdd }} Ar</p>
+            </div>
+          </a>
 
           <div class="cart-item__qty">
             <button (click)="decrease(item)">-</button>
