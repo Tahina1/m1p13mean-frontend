@@ -137,7 +137,10 @@
       <!-- Loading -->
       @if (loadingProducts()) {
         <div class="products-loading">
-          <i class="icn-spinner2 spinner"></i>
+          <div class="products-loading__spinner-wrap">
+            <i class="icn-spinner2 spinner"></i>
+            <span class="products-loading__hint">⚡ Le premier chargement peut prendre jusqu'à <strong>1 minute</strong> — le serveur se réveille (Render free tier).</span>
+          </div>
         </div>
       }
 
